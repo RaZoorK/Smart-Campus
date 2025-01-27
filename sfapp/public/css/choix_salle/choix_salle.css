@@ -1,0 +1,324 @@
+
+/* Appliquer le fond à la page entière */
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+}
+
+/* Assurer que l'élément wrapper principal occupe toute la hauteur disponible */
+.content-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    padding: clamp(1rem, 3vw, 3rem);
+    font-family: 'Montserra', sans-serif;
+}
+
+/* Appliquer le header qui prend toute la largeur */
+header {
+    width: 100%;
+    padding: 1rem;
+    background-color: #4aa3d6;
+    color: white;
+    text-align: center;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+/* Titre de la section */
+h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    color: #333;
+    text-align: center;
+}
+
+/* Conteneur du formulaire */
+.form-wrapper {
+    display: flex;
+    flex-direction: column; /* Pour empiler les éléments verticalement */
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px; /* Limite la largeur pour les écrans plus grands */
+    margin: 0 auto; /* Centre le formulaire */
+}
+
+/* Formulaire : Éléments individuels */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+
+.form-field label {
+    display: block; /* Place les labels au-dessus des champs */
+    margin-bottom: 0.5rem;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    color: #333;
+}
+
+/* Fixer la largeur des champs de recherche */
+input[type="text"], select {
+    width: 100%; /* Adapte à la largeur disponible */
+    padding: clamp(0.5rem, 1vw, 0.8rem);
+    margin: 5px 0;
+    border: 2px solid #4aa3d6;
+    border-radius: 12px;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Focus sur les champs de saisie */
+input[type="text"]:focus, select:focus {
+    border-color: #4aa3d6;
+    outline : none;
+}
+
+/* Style pour le bouton de recherche */
+button.btn-primary {
+    background-color: #4aa3d6;
+    color: white;
+    padding: clamp(0.5rem, 1vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+    border: 1px solid #4aa3d6;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+    margin: 20px auto;
+}
+
+button.btn-primary:hover {
+    background-color: #358cb9;
+    box-shadow: none;
+}
+
+/* Résultats de recherche */
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 3vw, 2rem);
+    justify-content: center;
+    margin-top: clamp(2rem, 3vw, 3rem);
+    width: 100%;
+}
+
+/* Style des bulles */
+.bubble {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    width: clamp(250px, 25vw, 350px); /* Modifie la largeur des bulles */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer; /* Ajout du curseur pour indiquer la zone cliquable */
+}
+
+/* Lien dans les bulles - prend toute la zone de la bulle */
+.bubble a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Le lien prend toute la surface de la bulle */
+    width: 100%; /* S'assure que le lien couvre toute la largeur */
+    height: 100%; /* S'assure que le lien couvre toute la hauteur */
+    padding: 0; /* Enlève les marges internes pour ne pas déformer la bulle */
+}
+
+/* Effet hover sur le lien */
+.bubble a:hover {
+    color: #4aa3d6;
+    text-decoration: none;
+}
+
+/* Hover sur la bulle */
+.bubble:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.bubble h3 {
+    margin: 0 0 10px;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: #333;
+    font-weight: 600;
+}
+
+.bubble p {
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    color: #666;
+}
+
+
+/* Désactiver les bulles sans SA */
+.bubble.disabled {
+    background: #e0e0e0;
+    border-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* Filtre d'étage */
+.select-etage-container select {
+    width: 100%;
+    appearance: none;
+    background: #fff url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"%3E%3Cpath d="M1 1l4 4 4-4" stroke="%23333" stroke-width="2" fill="none" /%3E%3C/svg%3E') no-repeat scroll 95% center;
+    background-size: 8px;
+    padding: 10px 15px;
+    border: 2px solid #4aa3d6;
+    border-radius: 12px;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.select-etage-container select:hover,
+.select-etage-container select:focus {
+    border-color: #358cb9;
+    background-color: #f3faff;
+    outline : none;
+}
+
+/* Responsive pour petits écrans */
+@media (max-width: 768px) {
+    .form-wrapper {
+        flex-direction: column; /* Assure que tout est empilé verticalement */
+    }
+
+    .col-md-5, .col-md-6 {
+        max-width: 100%;
+    }
+
+    button.btn-primary {
+        width: 100%;
+    }
+}
+
+/* Bordure orange pour les salles en maintenance */
+.bubble.maintenance {
+    border: 4px solid orange;  /* Bordure orange */
+}
+
+/* Texte en orange uniquement pour '(En maintenance)' */
+.bubble.maintenance p.maintenance-text {
+    color: orange;  /* Texte '(En maintenance)' en orange */
+}
+
+/* Bordure verte pour les salles fonctionnelles */
+.bubble.fonctionnel {
+    border: 4px solid green;  /* Bordure verte */
+}
+
+/* Texte 'Fonctionnel' en vert */
+.bubble.fonctionnel p.fonctionnel-text {
+    color: green;  /* Texte 'Fonctionnel' en vert */
+}
+
+.batiment-select {
+    position: relative;
+    cursor: pointer;
+    appearance: none;
+    background: #fff url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"%3E%3Cpath d="M1 1l4 4 4-4" stroke="%23333" stroke-width="2" fill="none" /%3E%3C/svg%3E') no-repeat scroll 95% center;
+    background-size: 8px;
+    padding: 10px 15px;
+    border: 2px solid #4aa3d6;
+    border-radius: 12px;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.batiment-select:hover {
+    border-color: #358cb9;
+    background-color: #f3faff;
+}
+
+/* Conteneur pour les filtres par étage et bâtiment */
+.form-filters {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les deux champs */
+    gap: 1rem; /* Espace entre les champs */
+    width: 100%; /* S'adapte à la largeur du formulaire */
+}
+
+/* Les champs enfants s'adaptent de manière égale */
+.form-filters .form-field {
+    flex: 1; /* Chaque champ occupe un espace égal */
+}
+
+/* Optionnel : Ajustement de la largeur maximale pour les champs */
+.form-filters .form-field select {
+    max-width: 100%; /* Empêche de dépasser la largeur disponible */
+}
+
+@media (max-width: 768px) {
+    .form-filters {
+        flex-direction: column; /* Empile les champs verticalement */
+        gap: 1rem; /* Garde l'espace entre les champs */
+    }
+}
+
+/* Appliquer le même style pour les sélecteurs étage et bâtiment */
+.select-field {
+    position: relative;
+    cursor: pointer;
+    appearance: none;
+    background: #fff url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"%3E%3Cpath d="M1 1l4 4 4-4" stroke="%23333" stroke-width="2" fill="none" /%3E%3C/svg%3E') no-repeat scroll 95% center;
+    background-size: 8px;
+    padding: 10px 15px;
+    border: 2px solid #4aa3d6;
+    border-radius: 12px;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.select-field:hover {
+    border-color: #358cb9;
+    background-color: #f3faff;
+}
+
+
+/* Conteneur pour les données en ligne dans la bulle */
+.inline-data {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 1.2rem; /* Taille de police augmentée */
+    color: #333;
+}
+
+/* Groupe icône + valeur */
+.inline-data .data-item {
+    display: flex;
+    align-items: center; /* Aligne verticalement l'icône avec la valeur */
+}
+
+/* Taille des icônes */
+.inline-data img {
+    width: 8%; /* Ajuste la taille relative des icônes */
+    height: auto; /* Conserve les proportions */
+}
+
+/* Texte des valeurs */
+.inline-data span {
+    color: #333;
+    margin: 0; /* Supprime les marges supplémentaires */
+}
+
+

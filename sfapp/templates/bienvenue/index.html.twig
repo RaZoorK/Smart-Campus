@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue !{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bienvenue/bienvenue.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+
+    <div class="container fade-in">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Bienvenue {{ nomUtilisateur }} !</h1>
+            <p>Nous sommes heureux de vous voir parmi nous. Profitez de votre visite !</p>
+            <a href="{{ path('app_choix_salles', {role}) }}">Accéder aux salles</a>
+        </section>
+    </div>
+{% endblock %}

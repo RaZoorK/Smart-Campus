@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choix des Salles{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/choix_salle/choix_salle.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% elseif role == 'Occupant' %}
+        {% include 'php/sidebarOccupant.php' %}
+    {% endif %}
+
+    <section class="content-grid">
+        <div class="tout">
+            <h2>Sélectionnez votre salle</h2>
+
+            <!-- Formulaire -->
+            {{ form_start(form) }}
+            <div class="form-wrapper">
+                <!-- Champ de recherche par nom -->
+                <div class="form-field">
+                    <label for="form_nom">Nom de la salle</label>
+                    {{ form_widget(form.nom) }}
+                </div>
+
+                <!-- Conteneur pour les filtres par étage et bâtiment -->
+                <div class="form-filters">
+                    <div class="form-field">
+                        <label for="form_etage">Etage</label>
+                        {{ form_widget(form.etage, {'attr': {'class': 'select-field'}}) }}
+                    </div>
+                    <div class="form-field">
+                        <label for="form_batiment">Bâtiment</label>
+                        {{ form_widget(form.batiment, {'attr': {'class': 'select-field'}}) }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-3">Rechercher</button>
+            {{ form_end(form) }}
+
+            <!-- Résultats -->
+            <div class="results mt-4">
+                {% for salle in salles %}
+                    <div class="bubble {% if salle.SA.etat is not null and salle.SA.etat.value == 'En maintenance' %}maintenance{% elseif salle.SA.etat is not null and salle.SA.etat.value == 'Fonctionnel' %}fonctionnel{% endif %}">
+                        <a href="{{ path('app_redirect_to_donnees', { salle: salle.nom, role: role }) }}">
+                            <h3>{{ salle.nom }}</h3>
+                            <h4>{{ salle.batiment }} - Étage {{ salle.etage }}</h4>
+                            <div class="inline-data">
+                                {% if salle.temp is not null %}
+                                    <img src="{{ asset('images/choix_salle/thermometre.png') }}" alt="Température">
+                                    <span>{{ salle.temp }}°C</span>
+                                {% endif %}
+                                {% if salle.humidite is not null %}
+                                    <img src="{{ asset('images/choix_salle/humidite.png') }}" alt="Humidité">
+                                    <span>{{ salle.humidite }}%</span>
+                                {% endif %}
+                                {% if salle.co2 is not null %}
+                                    <img src="{{ asset('images/choix_salle/co2.png') }}" alt="CO2">
+                                    <span>{{ salle.co2 }} ppm</span>
+                                {% endif %}
+                            </div>
+                            <p>Nom SA : {{ salle.SA.nomSA }}</p>
+
+                            {% if salle.SA.etat is not null and salle.SA.etat.value == 'En maintenance' %}
+                                <p class="maintenance-text">(En maintenance)</p>
+                            {% elseif salle.SA.etat is not null and salle.SA.etat.value == 'Fonctionnel' %}
+                                <p class="fonctionnel-text">(Fonctionnel)</p>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% else %}
+                    <p>Aucune salle trouvée.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

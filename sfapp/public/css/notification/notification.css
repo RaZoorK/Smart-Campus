@@ -1,0 +1,307 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fond de la page */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    width: 100%;
+}
+
+/* Titre principal */
+h3 {
+    margin-top: clamp(1rem, 4vw, 2rem);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Conteneur principal */
+.container {
+    width: clamp(90%, 90vw, 1200px);
+    margin: clamp(1%, 2vw, 3%) auto;
+    background-color: transparent;
+}
+
+/* Formulaire */
+.formulaire {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: clamp(1rem, 2vw, 2rem);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Boutons de bascule */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.5rem 1rem;
+    background-color: #4aa3d6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab-btn.active {
+    background-color: #2a6f8c;
+}
+
+.tab-btn:hover {
+    background-color: #2a6f8c;
+}
+
+/* Contenu des onglets */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.btn.btn-success {
+    background-color: #4caf50; /* Vert moderne */
+    color: white;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    font-weight: bold;
+    padding: clamp(0.5rem, 1vw, 0.8rem) clamp(1.5rem, 2.5vw, 2rem);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn.btn-success:hover {
+    background-color: #388e3c; /* Vert plus sombre */
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn.btn-success:active {
+    background-color: #2e7d32; /* Vert encore plus sombre */
+    transform: translateY(1px);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Barre de recherche */
+.search-bar {
+    display: flex;
+    justify-content: space-between; /* Place les éléments à gauche et à droite */
+    align-items: center;
+    flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire */
+    width: 100%;
+    margin-bottom: clamp(1%, 2vw, 2%);
+    gap: clamp(0.5rem, 1vw, 1.5rem); /* Espacement entre les éléments si wrap */
+}
+
+/* Groupement des filtres (champs et bouton rechercher) */
+.search-filters {
+    display: flex;
+    align-items: center;
+    gap: 0; /* Supprime l'écart entre l'input et le bouton */
+    flex-wrap: wrap;
+}
+
+/* Sélecteurs */
+.search-bar select {
+    padding: clamp(0.5rem, 1vw, 0.8rem);
+    border: 1px solid #c1c1c1;
+    border-radius: 20px;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    margin-left: clamp(0.5rem, 1vw, 1rem);
+    cursor: pointer;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    max-width: 400px;
+    padding: clamp(0.5rem, 1vw, 0.8rem);
+    border: 1px solid #c1c1c1;
+    border-radius: 20px 0 0 20px;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    border-right: none;
+}
+
+.search-bar button {
+    padding: clamp(0.5rem, 1vw, 0.8rem) clamp(1rem, 2vw, 1.5rem);
+    background-color: #4aa3d6;
+    color: white;
+    border: 1px solid #4aa3d6;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.search-bar button:hover {
+    background-color: #367a9b;
+}
+
+/* Lien bouton "Ajouter un SA" */
+td a {
+    text-decoration: none; /* Enlève la ligne sous le lien */
+}
+
+.assignerTech {
+    background-color: #4aa3d6;
+    padding: 2% 4%;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.assignerTech:hover {
+    background-color: #358cb9;
+}
+
+/* Tableau */
+.table-container {
+    width: 100%;
+    overflow-y: auto;
+    max-height: clamp(300px, 50vh, 500px);
+    margin-top: clamp(1%, 1vw, 1%);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table th,
+.table td {
+    padding: clamp(0.5rem, 1vw, 1rem);
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    border-bottom: 1px solid #eee;
+}
+
+/* En-têtes fixes */
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #e0f7fa;
+    color: #333;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Lignes alternées */
+.table tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.table tbody tr:hover {
+    background-color: #d7f4f7;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.marqueLu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(2rem, 3vw, 2.5rem);
+    height: clamp(2rem, 3vw, 2.5rem);
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Icônes d'état */
+.status-icon {
+    font-size: clamp(1rem, 1.2vw, 1.3rem);
+}
+
+.status-icon.green {
+    color: #27ae60;
+}
+
+.status-icon.red {
+    color: #e74c3c;
+}
+
+.status-icon.gray {
+    color: #888;
+}
+
+.vue form{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.search-bar label{
+    margin-left: 20px;
+}
+
+/* Checkbox stylisée */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Checkbox cochée */
+input[type="checkbox"]:checked {
+    background-color: #007BFF;
+    border-color: #0056b3;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 13.723c-.102.1-.215.193-.339.277a1.007 1.007 0 0 1-1.235-.15L.634 9.207a.746.746 0 1 1 1.045-1.066l3.422 3.423 7.486-7.486a.746.746 0 1 1 1.054 1.054l-8.51 8.51-.008.008-.95.973z'/%3E%3C/svg%3E");
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Interaction hover sur la checkbox */
+input[type="checkbox"]:hover {
+    border-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
+

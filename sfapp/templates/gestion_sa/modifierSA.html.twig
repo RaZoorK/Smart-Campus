@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier des SA{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sa/gestion_sa_modifier.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Modifier le SA {{ sa.nomSA }}</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+            <div class="buttons">
+                <button type="submit">Valider</button>
+                <a href="{{ path("app_gestion_sa", {role}) }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+

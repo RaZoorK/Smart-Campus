@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer des SA{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sa/gestion_sa_supprimer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Supprimer un SA</h1>
+        <ul>
+            <li>Nom du SA : {{ sa.nomSA }}</li>
+            <li>Nom de la salle : {{ sa.salle is not null ? (sa.salle.nom is not null ? sa.salle.nom) : 'Pas de salle affectée' }}</li>
+            <li>Etat de la salle : {{ sa.etat is not null ? sa.etatValue : 'État non défini' }}</li>
+        </ul>
+        <div class="buttons">
+            <div>
+                <form action="{{ path('app_gestion_sa_supprimer', {'role': role, 'nomSA': sa.nomSA}) }}" method="post" style="display: inline;">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </div>
+
+            <div>
+                <a href="{{ path('app_gestion_sa', {'role': role}) }}">Annuler</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

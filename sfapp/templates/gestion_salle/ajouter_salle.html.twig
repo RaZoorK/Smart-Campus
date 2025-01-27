@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une salle{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/salle/gestion_salle_ajouter.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Ajouter une salle</h1>
+        {{ form_start(form) }}
+
+        <!-- Affichage du champ Nom de la salle -->
+        <div class="form-group">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom) }}
+        </div>
+
+        <!-- Affichage du champ Bâtiment avec affichage dynamique -->
+        <div class="form-group" id="batiment-group">
+            {{ form_label(form.batiment) }}
+            {{ form_widget(form.batiment) }}
+        </div>
+
+        <!-- Champ "Nom du nouveau bâtiment" caché par défaut -->
+        <div class="form-group" id="nouveau-batiment-group" style="display: none;">
+            {{ form_label(form.nouveauBatiment) }}
+            {{ form_widget(form.nouveauBatiment) }}
+        </div>
+
+
+        <!-- Affichage du champ SA si nécessaire -->
+        {% if form.SA is defined %}
+            <div class="form-group">
+                {{ form_label(form.SA) }}
+                {{ form_widget(form.SA) }}
+            </div>
+        {% endif %}
+
+        <!-- Affichage du champ Étage -->
+        <div class="form-group">
+            {{ form_label(form.Etage) }}
+            {{ form_widget(form.Etage) }}
+        </div>
+
+        <div class="buttons">
+            <button type="submit">Valider</button>
+            <a href="{{ path('app_gestion_salles', {role}) }}"> Annuler </a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+    <!-- Script pour gérer l'affichage dynamique du champ "Nom du nouveau bâtiment" -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const batimentSelect = document.querySelector('select[name="ajout_salle[batiment]"]'); // Sélectionner l'élément "batiment"
+            const batimentGroup = document.getElementById('batiment-group'); // Sélectionner le groupe du champ "batiment"
+            const nouveauBatimentGroup = document.getElementById('nouveau-batiment-group'); // Sélectionner le groupe du champ "nouveauBatiment"
+            const nouveauBatimentInput = document.getElementById('nouveauBatiment'); // Sélectionner l'input du nouveau bâtiment
+
+            const toggleNouveauBatiment = () => {
+                if (batimentSelect.value === 'Autre') {
+                    batimentGroup.style.display = 'none'; // Cacher le champ "Nom du bâtiment"
+                    nouveauBatimentGroup.style.display = 'block'; // Afficher le champ "Nom du nouveau bâtiment"
+                    nouveauBatimentInput.removeAttribute('disabled'); // Autoriser l'écriture dans l'input
+                } else {
+                    batimentGroup.style.display = 'block'; // Afficher le champ "Nom du bâtiment"
+                    nouveauBatimentGroup.style.display = 'none'; // Cacher le champ "Nom du nouveau bâtiment"
+                    const input = document.getElementById('nouveauBatiment');
+                    if (input) input.value = ''; // Réinitialiser le champ si "Autre" n'est pas sélectionné
+                    nouveauBatimentInput.setAttribute('disabled', 'disabled'); // Désactiver l'input
+                }
+            };
+
+            // Écoutez les changements sur le select pour afficher/masquer les champs
+            batimentSelect.addEventListener('change', toggleNouveauBatiment);
+
+            // Initialiser l'état du champ au chargement de la page
+            toggleNouveauBatiment();
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Notifications{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/notification/notification.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="container">
+        <div class="formulaire">
+            <!-- Boutons pour basculer -->
+            <div class="tab-buttons">
+                <button id="btn-received" class="tab-btn active">Notifications reçues</button>
+                <button id="btn-sent" class="tab-btn">Notifications envoyées</button>
+            </div>
+
+            <div class="search-bar">
+                {{ form_start(form)}}
+                {{ form_widget(form.sujet, {'attr': {'placeholder': 'Rechercher un sujet'}}) }}
+                <button type="submit">🔍</button>
+
+                {{ form_widget(form.expediteur)}}
+                {{ form_widget(form.destinataire)}}
+                {{ form_widget(form.dateFilter)}}
+
+                <label for="{{ form.vue.vars.id }}">{{ form.vue.vars.label }}</label>
+                {{ form_widget(form.vue)}}
+                {{ form_end(form) }}
+            </div>
+
+            <!-- Notifications reçues -->
+            <div id="received-table" class="tab-content active">
+                <h2>Notifications reçues</h2>
+
+
+                <div class="vue">
+                    <form method="post" action="{{ path('notification_marquer_toutes_vues', {'role' : role}) }}">
+                        <button class="btn btn-success">Marquer toutes comme lues</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Sujet</th>
+                            <th>Message</th>
+                            <th>SA concerné</th>
+                            <th>Envoyé par</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if notificationsRecues is not empty %}
+                            {% for notification in notificationsRecues %}
+                                <tr>
+                                    <td>{{ notification.sujet }}</td>
+                                    <td>{{ notification.message }}</td>
+                                    <td>{{ notification.saConcerne.nomSA }}</td>
+                                    {% if notification.expediteurPrenom != null %}
+                                        <td>{{ notification.expediteurPrenom }} {{ notification.expediteurNom }}</td>
+                                    {% else %}
+                                        <td>{{ notification.expediteur.prenom }} {{ notification.expediteur.nom }}</td>
+                                    {% endif %}
+
+                                    <td>{{ notification.typeNotifValue }}</td>
+                                    <td>{{ notification.dateCreation|date('d/m/Y H:i') }}</td>
+                                    <td>
+                                        {% if notification.vue %}
+                                            <span class="status-icon green">✔ Vue</span>
+                                        {% else %}
+                                            <form method="post" action="{{ path('notification_marquer_vue', {id: notification.id, 'role': role}) }}">
+                                                <button class="btn btn-sm btn-primary">Marquer comme lue</button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Aucune notification reçue</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Notifications envoyées -->
+            <div id="sent-table" class="tab-content">
+                <h2>Notifications envoyées</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Sujet</th>
+                            <th>Message</th>
+                            <th>SA concerné</th>
+                            <th>Destinataire</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if notificationsEnvoyees is not empty %}
+                            {% for notification in notificationsEnvoyees %}
+                                <tr>
+                                    <td>{{ notification.sujet }}</td>
+                                    <td>{{ notification.message }}</td>
+                                    <td>{{ notification.saConcerne.nomSA }}</td>
+                                    <td>{{ notification.destinataire.prenom }} {{ notification.destinataire.nom }}</td>
+                                    <td>{{ notification.typeNotifValue }}</td>
+                                    <td>{{ notification.dateCreation|date('d/m/Y H:i') }}</td>
+                                    <td>
+                                        {% if notification.vue %}
+                                            <span class="status-icon green">✔ Vue</span>
+                                        {% else %}
+                                            <span class="status-icon red">Non lue</span>
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">Aucune notification envoyée</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnReceived = document.getElementById('btn-received');
+            const btnSent = document.getElementById('btn-sent');
+            const receivedTable = document.getElementById('received-table');
+            const sentTable = document.getElementById('sent-table');
+
+            btnReceived.addEventListener('click', () => {
+                btnReceived.classList.add('active');
+                btnSent.classList.remove('active');
+                receivedTable.classList.add('active');
+                sentTable.classList.remove('active');
+            });
+
+            btnSent.addEventListener('click', () => {
+                btnSent.classList.add('active');
+                btnReceived.classList.remove('active');
+                sentTable.classList.add('active');
+                receivedTable.classList.remove('active');
+            });
+        });
+    </script>
+{% endblock %}

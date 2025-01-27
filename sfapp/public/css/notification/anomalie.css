@@ -1,0 +1,144 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fond de la page */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    width: 100%;
+}
+
+/* Conteneur principal du formulaire */
+.formulaire {
+    width: clamp(90%, 90vw, 1200px);
+    margin: clamp(2rem, 5vw, 4rem) auto;
+    padding: clamp(2rem, 3vw, 4rem);
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre principal */
+.formulaire h1 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    text-align: center;
+    color: #333;
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    font-weight: bold;
+}
+
+/* Champs de formulaire */
+.formulaire input,
+.formulaire select,
+.formulaire textarea {
+    width: 100%;
+    padding: clamp(0.8rem, 1vw, 1rem);
+    margin-bottom: clamp(1rem, 1.5vw, 1.5rem);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    transition: border-color 0.3s ease;
+}
+
+/* Focus sur les champs */
+.formulaire input:focus,
+.formulaire select:focus,
+.formulaire textarea:focus {
+    border-color: #4aa3d6;
+    outline: none;
+}
+
+/* Labels des champs */
+.formulaire label {
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #333;
+}
+
+/* Boutons */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: clamp(1rem, 2vw, 2rem);
+}
+
+.formulaire button[type="submit"] {
+    background-color: #4aa3d6;
+    color: white;
+    padding: clamp(0.8rem, 1.2vw, 1rem) clamp(1.5rem, 2.5vw, 2rem);
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+.formulaire button[type="submit"]:hover {
+    background-color: #367a9b;
+    transform: translateY(-2px);
+}
+
+.formulaire button[type="submit"]:active {
+    background-color: #2a6f8c;
+    transform: translateY(1px);
+}
+
+/* Bouton Annuler */
+.buttons a {
+    background-color: #e74c3c;
+    color: white;
+    text-decoration: none;
+    padding: clamp(0.8rem, 1.2vw, 1rem) clamp(1.5rem, 2.5vw, 2rem);
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    text-align: center;
+}
+
+.buttons a:hover {
+    background-color: #b32d2d;
+    transform: translateY(-2px);
+}
+
+.buttons a:active {
+    background-color: #a72828;
+    transform: translateY(1px);
+}
+
+/* Messages de succès */
+.valid-feedback {
+    color: #27ae60;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .buttons a,
+    .formulaire button[type="submit"] {
+        width: 100%;
+        text-align: center;
+    }
+}

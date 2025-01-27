@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Profil - {{ app.user.nom }} {{ app.user.prenom }}{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+
+    <link rel="stylesheet" href="{{ asset('css/profil/profil_edite.css') }}">
+
+    <!-- Formulaire Stylisé -->
+    <div class="profile-container">
+        <h1>Modifier le Profil de {{ app.user.prenom }} {{ app.user.nom }}</h1>
+
+        <form method="post">
+            {{ form_start(form) }}
+
+            <div class="profile-details">
+                <!-- Champ Identifiant -->
+                <div class="form-group">
+                    <label for="{{ form.identifiant.vars.id }}">{{ form_label(form.identifiant) }}</label>
+                    {{ form_widget(form.identifiant, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">{{ form_errors(form.identifiant) }}</div>
+                </div>
+
+                <!-- Champ Mot de Passe -->
+                <div class="form-group">
+                    <label for="{{ form.plainPassword.vars.id }}">{{ form_label(form.plainPassword) }}</label>
+                    {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">{{ form_errors(form.plainPassword) }}</div>
+                </div>
+
+                <!-- Champ Nom -->
+                <div class="form-group">
+                    <label for="{{ form.nom.vars.id }}">{{ form_label(form.nom) }}</label>
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">{{ form_errors(form.nom) }}</div>
+                </div>
+
+                <!-- Champ Prénom -->
+                <div class="form-group">
+                    <label for="{{ form.prenom.vars.id }}">{{ form_label(form.prenom) }}</label>
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">{{ form_errors(form.prenom) }}</div>
+                </div>
+
+                <!-- Champ Email -->
+                <div class="form-group">
+                    <label for="{{ form.mail.vars.id }}">{{ form_label(form.mail) }}</label>
+                    {{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">
+                        {{ form_errors(form.mail) }}
+                        {% for message in app.flashes('error_mail') %}
+                            <p class="flash-error">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Champ Téléphone -->
+                <div class="form-group">
+                    <label for="{{ form.telephone.vars.id }}">{{ form_label(form.telephone) }}</label>
+                    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">
+                        {{ form_errors(form.telephone) }}
+                        {% for message in app.flashes('error_phone') %}
+                            <p class="flash-error">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                <button type="submit" class="btn">Enregistrer les modifications</button>
+                <a href="{{ path('app_profil', {role}) }}" class="btn back-btn">Annuler</a>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

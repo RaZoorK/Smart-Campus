@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - IUT La Rochelle{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/connexion/connexion.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="container">
+            <!-- Logo IUT -->
+            <img src="{{ asset('images/connexion/logo-iut.png') }}" alt="IUT Logo" id="img">
+
+            <!-- Boîte de connexion -->
+            <div class="login-box">
+
+                <h3>Se connecter en tant que</h3>
+                <!-- Option Occupant -->
+
+                <div class="role" onclick="window.location.href='{{ path('app_choix_salles', { role: 'Occupant'}) }}'">
+                    <img src="{{ asset('images/connexion/occupant.png') }}" alt="Occupant Icon">
+                    <span><b>Occupant</b></span>
+                </div>
+
+                <!-- Option Technicien -->
+                <div class="role" onclick="window.location.href='{{ path('app_se_connecter', { role: 'Technicien' }) }}'">
+                    <img src="{{ asset('images/connexion/technicien.png') }}" alt="Technicien Icon">
+                    <span><b>Technicien</b></span>
+                </div>
+
+                <!-- Option Manager -->
+                <div class="role" onclick="window.location.href='{{ path('app_se_connecter', { role: 'Manager' }) }}'">
+                    <img src="{{ asset('images/connexion/manager.png') }}" alt="Manager Icon">
+                    <span><b>Manager</b></span>
+                </div>
+                <div class="retourAccueil">
+                    <a href="{{ path('app_accueil') }}">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

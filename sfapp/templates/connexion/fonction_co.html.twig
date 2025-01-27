@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se Connecter {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/connexion/fonction_co.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="login-box">
+            <img id="img" src="{{ asset('images/connexion/logo-iut.png') }}" alt="Logo">
+            <h3>Connexion</h3>
+
+            {# Affichage du message flash d'erreur #}
+            {% for message in app.flashes('error') %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+
+            {% if erreur %}
+                <div class="error-message">{{ erreur }}</div>
+            {% endif %}
+
+            <!-- Mise à jour de l'attribut action pour rediriger vers la route donnees -->
+            <form action="{{ path('app_redirect_to_bienvenue', { role }) }}" method="post">
+                <h4> {{ role }}</h4>
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="_username" value="{{ nomUtilisateur }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="_password" required>
+                        <!-- Icône de l'œil -->
+                        <span id="togglePassword" class="eye-icon" style="cursor: pointer;">
+                        <img id="eyeIcon" src="{{ asset('images/connexion/oeil-non_visible.png') }}" alt="Afficher le mot de passe" />
+                    </span>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <!-- Bouton pour retourner à ldonnees -->
+            <div class="back-home">
+                <a href="{{ path('app_connexion')}}" class="btn-home">Retour à la connexion</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Récupérer l'input du mot de passe et l'icône de l'œil
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon'); // Référence à l'icône
+
+        // Ajouter un événement de clic sur l'icône
+        togglePassword.addEventListener('click', function() {
+            // Vérifier si le mot de passe est visible ou caché et basculer
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+
+            // Changer l'icône de l'œil en fonction de l'état
+            if (passwordInput.type === 'password') {
+                eyeIcon.src = '{{ asset('images/connexion/oeil-non_visible.png') }}'; // Œil fermé
+            } else {
+                eyeIcon.src = '{{ asset('images/connexion/oeil-visible.png') }}'; // Œil ouvert
+            }
+        });
+    </script>
+{% endblock %}

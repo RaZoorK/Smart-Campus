@@ -1,0 +1,113 @@
+/* Intégration des couleurs et du style global */
+body {
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    color: #2C3E50;
+    font-family: Montserra, sans-serif; /* Police moderne */
+    width: 100%;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    overflow: hidden; /* Empêcher le défilement de la page */
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 80%; /* Plus petit pour mieux s'adapter à l'écran */
+    padding: 5% 2%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    color: #000000; /* Texte en noir */
+    border-radius: 20px; /* Coins arrondis */
+}
+
+/* Section héro (accueil) */
+.hero-section {
+    background: rgba(255, 255, 255, 0.28); /* Fond toujours semi-transparent */
+    color: #000000; /* Texte en noir */
+    padding: clamp(1rem, 2%, 2rem); /* Padding adaptatif pour un espacement responsive */
+    border-radius: 1rem; /* Coins arrondis */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre plus douce pour l'effet de profondeur */
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 60%;
+}
+
+/* Animation pour la section héro */
+@keyframes slideUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero-section h1 {
+    font-size: 5vw; /* Plus grand et plus impactant */
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 1px; /* Espacement des lettres pour un effet plus moderne */
+}
+
+.hero-section p {
+    font-size: 1.5rem; /* Taille de texte plus lisible */
+    margin-top: 10px;
+    line-height: 1.6; /* Plus d'espacement entre les lignes */
+}
+
+/* Bouton d'action */
+.hero-section a {
+    display: inline-block;
+    padding: 12px 35px;
+    font-size: 1.2rem; /* Taille proportionnelle mais plus accessible */
+    color: white;
+    background-color: #3498db;
+    text-decoration: none;
+    border-radius: 25px; /* Coins arrondis */
+    margin-top: 30px;
+    font-weight: 600;
+    text-transform: uppercase; /* Majuscules pour un effet plus professionnel */
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol sur le bouton */
+.hero-section a:hover {
+    background-color: #2980b9;
+    transform: translateY(-5px); /* Effet de déplacement vers le haut */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Ombre plus marquée au survol */
+}
+
+/* Section footer */
+.footer {
+    background-color: #2d3b36;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 1rem;
+    margin-top: 40px;
+}
+
+/* Animation fade-in */
+.fade-in {
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

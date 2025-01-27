@@ -1,0 +1,159 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fond de la page */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem); /* Taille de police légèrement réduite */
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Conteneur du formulaire */
+.formulaire {
+    width: 95%; /* Réduit un peu la largeur */
+    max-width: 800px; /* Limite pour les écrans plus petits */
+    margin: 5vh auto; /* Réduit les marges */
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus discrète */
+    padding: 3vh 4vw; /* Réduit les paddings */
+    border-radius: 1.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.8s ease-out;
+    max-height: 90vh; /* Empêche le formulaire de dépasser l'écran */
+    overflow-y: auto; /* Permet de scroller si le contenu dépasse */
+}
+
+/* Titre du formulaire */
+.formulaire h1 {
+    font-size: clamp(1.2rem, 2.5vw, 2rem); /* Taille réduite */
+    margin-bottom: 3vh;
+    color: #4aa3d6;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Champs de formulaire */
+.formulaire input,
+.formulaire select,
+.formulaire textarea {
+    width: 100%;
+    padding: clamp(10px, 1vw, 1rem); /* Padding réduit */
+    margin: 1vh 0 2vh 0;
+    border: 1.5px solid #ccc;
+    border-radius: clamp(4px, 0.8vw, 0.8rem); /* Coins moins arrondis */
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.formulaire input:focus,
+.formulaire select:focus,
+.formulaire textarea:focus {
+    border-color: #4aa3d6;
+    outline: none;
+}
+
+/* Labels des champs */
+.formulaire label {
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    font-weight: bold;
+    margin-bottom: 0.5vh;
+    color: #333;
+}
+
+/* Conteneur des boutons */
+.buttons {
+    display: flex;
+    justify-content: center; /* Répartit les boutons */
+    gap: 1vw; /* Espacement réduit */
+    width: 100%;
+    margin-top: 3vh;
+}
+
+/* Style commun pour tous les boutons */
+.formulaire button[type="submit"],
+.button-secondary,
+.buttons a {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 1rem; /* Boutons plus petits */
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    border: none;
+    border-radius: clamp(4px, 1vw, 0.8rem);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Bouton principal */
+.formulaire button[type="submit"] {
+    background-color: #4aa3d6;
+    color: white;
+}
+
+.formulaire button[type="submit"]:hover {
+    background-color: #367a9b;
+}
+
+/* Bouton secondaire */
+.button-secondary {
+    background-color: #90FFFF;
+    color: #333;
+}
+
+.button-secondary:hover {
+    background-color: #75c1d9;
+}
+
+/* Bouton "Annuler" */
+.buttons a {
+    background-color: red;
+    color: white;
+    text-decoration: none;
+}
+
+.buttons a:hover {
+    background-color: #b32d2d;
+}
+
+/* Messages d'erreur */
+.form-error {
+    color: #e74c3c;
+    font-size: clamp(0.7rem, 1.2vw, 0.9rem); /* Taille réduite */
+    margin-top: 1vh;
+}
+
+/* Animation de fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Media Queries pour les petits écrans */
+@media (max-height: 800px) {
+    .formulaire {
+        margin: 2vh auto;
+        padding: 2vh 3vw;
+    }
+    .buttons {
+        gap: 1.5vh;
+        justify-content: center;
+    }
+}

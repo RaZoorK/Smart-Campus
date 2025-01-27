@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SBR TEMP' - Page d'accueil{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/accueil/accueil.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="main-content">
+            <header style="background-image: url('{{ asset('images/accueil/classe.jpg') }}')">
+                <h1>SBR TEMP'</h1>
+                <p>Découvrez et gérez les salles selon vos besoins. Connectez-vous pour plus de fonctionnalités.</p>
+                <a href="{{ path('app_connexion') }}" class="button">
+                    Se connecter
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                                fill-rule="evenodd"
+                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+                                clip-rule="evenodd"
+                        ></path>
+                    </svg>
+                </a>
+        </header>
+
+        <div id="ww_1c2b01d0ec035" v='1.3' loc='id' a='{"t":"ticker","lang":"fr","sl_lpl":1,"ids":["wl7549"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>Plus de prévisions: <a href="https://oneweather.org/fr/paris/30_jours/" id="ww_1c2b01d0ec035_u" target="_blank">Meteo paris 30 jours</a></div>
+        <script async src="https://app3.weatherwidget.org/js/?id=ww_1c2b01d0ec035"></script>
+    </div>
+
+    <div class="content-row">
+        <!-- Case Actualités -->
+        <div class="actualites-container">
+            <div class="actualites-header">
+                <h2>Actualités</h2>
+                <a href="https://www.univ-larochelle.fr/actualites/"
+                   class="button all-actualites-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Toutes les actualités
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                                fill-rule="evenodd"
+                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+                                clip-rule="evenodd"
+                        ></path>
+                    </svg>
+                </a>
+            </div>
+            <ul class="actualites-list">
+                <li><a href="#actualite1">Solidarité de La Rochelle Université avec Mayotte</a></li>
+                <li><a href="#actualite2">Des bourses Erasmus Mundus pour le Joint Master Programme en Marine Biotechnology de EU-CONEXUS !</a></li>
+                <li><a href="#actualite3">La Rochelle Université lauréate Compétences et métiers d'avenir !</a></li>
+                <li><a href="#actualite4">Universités : attention danger !</a></li>
+                <li><a href="#actualite5">Lancement de la Fédération LUDI</a></li>
+                <li><a href="#actualite6">Retour sur la 19e édition du Forum stage Emploi Alternance !</a></li>
+                <li><a href="#actualite7">Classement de Stanford 2024 : les scientifiques de La Rochelle Université dans le top 2% les plus cités</a></li>
+            </ul>
+        </div>
+
+        <hr class="section-divider"> <!-- Barre de séparation -->
+
+        <!-- Case Histoire -->
+        <div class="histoire-container">
+            <div class="histoire-header">
+                <h2>Histoire</h2>
+            </div>
+            <div class="histoire-content">
+                <p>
+                    Les enseignements universitaires à La Rochelle ont démarré avec l'ouverture
+                    d'un Institut universitaire de technologie en 1968. En 1974, le conseil général
+                    décide d'ouvrir une faculté de droit autonome. Finalement, à la demande des élus
+                    locaux, l'université de Poitiers crée à La Rochelle une antenne de sa faculté de
+                    droit qui forme pendant une vingtaine d'années environ 300 étudiants au premier
+                    cycle d'études juridiques.
+                </p>
+                <p>
+                    Dans les années 1980, la ville commence une politique de développement
+                    d’infrastructures de formations et au début des années 1990, le lancement du
+                    plan Université 2000 fournit l'opportunité à La Rochelle de devenir une ville
+                    universitaire. En novembre 1990 est publié un schéma régional d’aménagement
+                    et de développement des formations supérieures qui conclut sur la nécessité de
+                    créer une seconde université en Poitou-Charentes ; une proposition jugée
+                    favorable par le Comité interministériel d’aménagement du territoire en 1991.
+                    Le 12 janvier 1992, une équipe est missionnée par le ministère de l’Éducation
+                    nationale pour la création de l'université de La Rochelle.
+                </p>
+                <p>
+                    La première pierre de l'université est posée symboliquement le 22 mai 1992
+                    par François Mitterrand, Helmut Kohl, Michel Crépeau, François Blaizot et
+                    Jean-Pierre Raffarin. Le décret de création de l'université est promulgué le
+                    20 janvier 1993.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span>© SBR TEMP'</span>
+            </div>
+
+            <div>
+                <h3>Suivez La Rochelle Université</h3>
+                <div class="card">
+                    <a href="https://www.instagram.com/univlarochelle/?hl=fr" class="socialContainer containerOne">
+                        <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
+                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
+                        </svg>
+                    </a>
+
+                    <a href="https://x.com/univlarochelle" class="socialContainer containerTwo">
+                        <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="socialSvg twitterSvg">
+                            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path>
+                        </svg>
+                    </a>
+
+                    <a href="https://fr.linkedin.com/company/universit%C3%A9-de-la-rochelle" class="socialContainer containerThree">
+                        <svg class="socialSvg linkdinSvg" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+{% endblock %}

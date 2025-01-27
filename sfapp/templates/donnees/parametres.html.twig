@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres des seuils{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/donnees/parametres.css") }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <section class="content-grid">
+        <div class="tout">
+            <h2>Modifier les seuils pour {{ typeSelectionne }}</h2>
+
+
+                <div class="form-wrapper">
+                    <div class="form-field">
+                        <label for="type-select">Choisir un type :</label>
+                        <form method="get" action="{{ path('app_parametres', { role: role }) }}">
+                            <select id="type-select" name="type" onchange="this.form.submit()">
+                                {% for type in typesDisponibles %}
+                                    <option value="{{ type }}" {% if type == typeSelectionne %}selected{% endif %}>{{ type }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+
+                    </div>
+                    {% if seuilActuel %}
+                    <div class="form-field">
+                        <p><strong>Valeur minimale actuelle :</strong> {{ seuilActuel.valeurMin }}</p>
+                        <p><strong>Valeur maximale actuelle :</strong> {{ seuilActuel.valeurMax }}</p>
+                    </div>
+
+                    {{ form_start(form) }}
+                    <div class="form-field">
+                        {{ form_widget(form) }}
+                    </div>
+                    <button class="btn-primary" type="submit">Enregistrer</button>
+                    {{ form_end(form) }}
+                </div>
+            {% else %}
+                <p>Aucun seuil trouvé pour ce type.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

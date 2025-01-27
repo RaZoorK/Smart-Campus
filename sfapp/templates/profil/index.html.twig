@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil - {{ app.user.nom }} {{ app.user.prenom }}{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+
+    <link rel="stylesheet" href="{{ asset('css/profil/profil.css') }}">
+
+    <div class="profile-container">
+        <h1>Profil de {{ utilisateur.prenom }} {{ utilisateur.nom }}</h1>
+
+        <div class="profile-details">
+            <p><strong>Identifiant :</strong> {{ utilisateur.identifiant }}</p>
+            <p><strong>Email :</strong> {{ utilisateur.mail }}</p>
+            <p><strong>Téléphone :</strong> {{ utilisateur.telephone }}</p>
+            <p><strong>Fonction :</strong> {{ utilisateur.fonction }}</p>
+        </div>
+
+        <a href="{{ path('app_profil_edite', {role}) }}" class="btn">Modifier mon profil</a>
+        <button class="btn back-btn" onclick="goBack()">Retour</button>
+    </div>
+
+    <script>
+        function goBack() {
+            const previousUrl = '{{ app.session.get("previous_url") }}'; // Récupérer l'URL précédente de la session
+
+            // Si une URL précédente est enregistrée, rediriger l'utilisateur vers celle-ci
+            if (previousUrl) {
+                window.location.href = previousUrl;
+            } else {
+                // Si aucune URL précédente n'est enregistrée, revenir à la page d'accueil par défaut
+                window.location.href = '/'; // Vous pouvez ajuster cette URL en fonction de votre besoin
+            }
+        }
+    </script>
+{% endblock %}

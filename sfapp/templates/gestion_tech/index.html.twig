@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des techniciens{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/technicien/gestion_tech.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <h3>Liste des techniciens</h3>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <div class="formulaire">
+            <div class="search-bar">
+                <div class="form-container">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.nom, {'attr': {'placeholder': 'Rechercher un technicien'}}) }}
+                    <button type="submit">🔍</button>
+                    {{ form_end(form) }}
+                </div>
+
+                <a href="{{ path('app_gestion_tech_ajouter', {'role' : role}) }}" class="ajoutTech-link">
+                    <div class="ajoutTech">
+                        <p> Ajouter un technicien </p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Tableau des SA avec hauteur ajustée et défilement vertical -->
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if techniciens is not empty %}
+                        {% for tech in techniciens %}
+                            <tr>
+                                <td> {{ tech.identifiant }} </td>
+                                <td> {{ tech.nom }} </td>
+                                <td> {{ tech.prenom }} </td>
+                                <td class="actions">
+                                    <div class="modifier">
+                                        <a href="{{ path('app_gestion_tech_modifier', {'role' : role, 'id': tech.id}) }}">
+                                            <img src="{{ asset("images/actions/modifier.png") }}" alt="Modifier" >
+                                        </a>
+                                    </div>
+                                    <div class="poubelle">
+                                        <a href="{{ path('app_gestion_tech_supprimer_confirm', {'role' : role, 'id': tech.id}) }}">
+                                            <img src="{{ asset("images/actions/poubelle.png") }}" alt="Supprimer" >
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

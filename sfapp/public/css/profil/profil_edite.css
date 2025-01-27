@@ -1,0 +1,136 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+    font-size: clamp(12px, 1.2vw, 18px);
+    color: #2C3E50;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Profile Container */
+.profile-container {
+    margin: 2rem auto;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: clamp(1rem, 2%, 2rem);
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-container h1 {
+    text-align: center;
+    font-size: clamp(2rem, 3vw, 4rem);
+    color: #2C3E50;
+    margin-bottom: 1.5rem;
+}
+
+/* Profile Details (Form Fields) */
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.profile-details .form-group {
+    width: 100%;
+}
+
+.profile-details label {
+    font-size: clamp(1rem, 1.5vw, 1.8rem);
+    color: #2C3E50;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.profile-details .form-control {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.profile-details .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button Styling */
+.btn {
+    margin-top: 2rem;
+    padding: clamp(0.8rem, 1vw, 1.5rem);
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 1rem;
+    font-size: clamp(0.8rem, 1.2vw, 1.8rem);
+    font-family: Montserrat, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Button Back (Annuler) */
+.back-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #6c757d; /* Couleur grise */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background-color: #5a6268; /* Couleur légèrement plus sombre */
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        max-width: 95%;
+    }
+
+    .profile-container h1 {
+        font-size: 2rem;
+    }
+
+    .profile-details {
+        gap: 1rem;
+    }
+}
+
+.flash-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+

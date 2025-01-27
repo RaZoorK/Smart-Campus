@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des SA{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sa/gestion_sa.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% include 'php/header.php' %}
+
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <h3>Inventaire des systèmes d'acquisition</h3>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <div class="formulaire">
+
+            <!-- Barre de recherche -->
+            <div class="search-bar">
+                {{ form_start(form) }}
+                {{ form_widget(form.nomSA, {'attr': {'placeholder': 'Rechercher un SA'}}) }}
+                <button type="submit">🔍</button>
+                {{ form_end(form) }}
+
+                <!-- Bouton Ajouter un SA -->
+                <a href="{{ path('app_gestion_sa_ajouter', { 'role': role }) }}" class="ajoutSA-link">
+                    <div class="ajoutSA">
+                        <p>Ajouter un SA</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Tableau des SA -->
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nom du SA</th>
+                        <th>N° de salle</th>
+                        <th>Etat</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for sa in sas %}
+                        <tr>
+                            <td>{{ sa.nomSA }}</td>
+                            <td>{{ sa.salle is not null ? sa.salle.nom : 'N/A' }}</td>
+                            <td>
+                                {% if sa.etat == constant('App\\Model\\Etat::MAINTENANCE') %}
+                                    <span class="status-icon green">🛠️</span>
+                                {% elseif sa.etat == constant('App\\Model\\Etat::FONCTIONNEL') %}
+                                    <span class="status-icon red">👍</span>
+                                {% else %}
+                                    <span class="status-icon gray">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="actions">
+                                <div class="modifier">
+                                    <a href="{{ path('app_gestion_sa_modifier', { 'role': role, 'nomSA': sa.nomSA}) }}">
+                                        <img src="{{ asset("images/actions/modifier.png") }}" alt="Modifier">
+                                    </a>
+                                </div>
+                                <div class="poubelle">
+                                    <a href="{{ path('app_gestion_sa_supprimer_confirm', { 'role': role, 'nomSA': sa.nomSA}) }}">
+                                        <img src="{{ asset("images/actions/poubelle.png") }}" alt="Supprimer">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

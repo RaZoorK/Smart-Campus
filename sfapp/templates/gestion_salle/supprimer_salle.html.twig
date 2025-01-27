@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une Salle{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/salle/gestion_salle_supprimer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Supprimer une salle</h1>
+        <ul>
+            <li>Nom de la salle : {{ salle.Nom }}</li>
+            <li>Nom du SA : {{ salle.SA is not null ? (salle.SA.nomSA is not null ? salle.SA.nomSA) : 'Pas de SA affectée' }}</li>
+        </ul>
+        <div class="buttons">
+            <div>
+                <form action="{{ path('app_gestion_salle_supprimer', {'role': role, 'id': salle.id}) }}" method="post" style="display: inline;">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </div>
+
+            <div>
+                <a href="{{ path('app_gestion_salles', {'role': role}) }}">Annuler</a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,86 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    min-height: 100vh;
+    margin: 0;
+    font-family: Montserra, sans-serif;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    display: flex; /* Ajout pour que le body soit un conteneur flexible */
+    flex-direction: column;
+}
+
+.page-container {
+    width : 100%;
+    display: flex;
+    justify-content: center; /* Centre horizontalement les éléments */
+    align-items: center; /* Centre verticalement les éléments */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+}
+
+.container {
+    width: 50%; /* Le formulaire prend 50% de la largeur de la page */
+    display: flex;
+    flex-direction: column; /* Aligne les éléments du formulaire verticalement */
+    justify-content: center; /* Centre verticalement le formulaire */
+    align-items: center; /* Centre horizontalement le formulaire */
+    height: 100vh; /* Prend toute la hauteur de la page */
+    z-index: 1; /* Assure que le formulaire est au-dessus de la carte */
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 1.5%; /* Réduit légèrement le padding pour éviter l'effet zoomé */
+    border-radius: 1.5%; /* Ajuste le rayon des bords pour rester harmonieux */
+    width: 80%; /* Augmente la largeur pour rendre la boîte plus grande */
+    max-width: 600px; /* Fixe une largeur maximale pour ne pas trop étirer sur grands écrans */
+    margin: 0 auto;
+}
+
+.login-box h3 {
+    font-size: 1.8vw; /* Réduit la taille du titre pour limiter l'effet "zoomé" */
+    color: #333;
+    margin-bottom: 2%; /* Réduit l'espace sous le titre */
+    text-align: center; /* Centre le texte horizontalement */
+}
+
+.role {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 3%; /* Augmente l'espace à l'intérieur des boutons en pourcentage */
+    margin-bottom: 4%; /* Ajoute plus d'espace entre les boutons */
+    border-radius: 1%; /* Arrondie les bords en pourcentage */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.role:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.role img {
+    height: 3vw; /* Réduit la taille de l'image pour éviter un effet visuel trop grand */
+}
+
+.role span {
+    font-size: 1.5vw; /* Réduit la taille du texte pour le rendre moins imposant */
+    color: #333;
+    margin-left: 1%; /* Ajuste l'espacement du texte par rapport à l'image */
+}
+
+/* Style spécifique pour réduire la taille du logo */
+#img {
+    width: 25%; /* Réduit la largeur du logo pour qu'il soit plus discret */
+    height: auto;
+    margin-bottom: 2%; /* Ajuste l'espacement sous le logo */
+    margin-top: 1%; /* Ajuste l'espacement au-dessus du logo */
+}
+
+.retourAccueil{
+    text-align: center;
+}

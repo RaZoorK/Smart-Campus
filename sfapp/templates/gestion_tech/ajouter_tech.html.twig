@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un technicien{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/technicien/gestion_tech_ajouter.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserra:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Ajouter un Technicien</h1>
+        {{ form_start(form) }}
+
+        <div class="is-invalid">
+            {{ form_label(form.identifiant) }}
+            {% for error in form.identifiant.vars.errors %}
+                <div class="invalid-feedback">{{ error.message }}</div>
+            {% endfor %}
+
+            {{ form_widget(form.identifiant) }}
+        </div>
+
+        <div class="is-invalid">
+            {{ form_label(form.password) }}
+            {% for error in form.password.vars.errors %}
+                <div class="invalid-feedback">{{ error.message }}</div>
+            {% endfor %}
+            {{ form_widget(form.password) }}
+        </div>
+
+        <div class="is-invalid">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom) }}
+        </div>
+
+        <div class="is-invalid">
+            {{ form_label(form.prenom) }}
+            {{ form_widget(form.prenom) }}
+        </div>
+
+        <div class="is-invalid">
+            {{ form_label(form.mail) }}
+            {% for error in form.mail.vars.errors %}
+                <div class="invalid-feedback">{{ error.message }}</div>
+            {% endfor %}
+            {{ form_widget(form.mail) }}
+
+        </div>
+
+        <div class="is-invalid">
+            {{ form_label(form.telephone) }}
+            {% for error in form.telephone.vars.errors %}
+                <div class="invalid-feedback">{{ error.message }}</div>
+            {% endfor %}
+            {{ form_widget(form.telephone) }}
+        </div>
+
+        <div class="buttons">
+            <button type="submit">Valider</button>
+            <a href="{{ path("app_gestion_tech", {'role' : role}) }}">Retour</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+
+

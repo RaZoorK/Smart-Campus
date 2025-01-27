@@ -1,0 +1,189 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fond de la page */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    font-family: Montserra, sans-serif;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    width: 100%;
+}
+
+/* Titre principal */
+h3 {
+    margin-top: clamp(1rem, 4vw, 2rem);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Conteneur principal */
+.container {
+    width: clamp(80%, 90vw, 1200px);
+    margin: clamp(1%, 2vw, 3%) auto;
+    background-color: transparent;
+}
+
+/* Formulaire */
+.formulaire {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: clamp(1rem, 2vw, 2rem);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Barre de recherche */
+.search-bar {
+    display: flex;
+    justify-content: space-between; /* Aligne le bouton de recherche et le bouton Ajouter un SA */
+    align-items: center;
+    margin-bottom: clamp(1%, 2vw, 2%);
+    width: 100%;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    max-width: 400px;
+    padding: clamp(0.5rem, 1vw, 0.8rem);
+    border: 1px solid #c1c1c1;
+    border-radius: 20px 0 0 20px;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    border-right: none;
+}
+
+.search-bar button {
+    padding: clamp(0.5rem, 1vw, 0.8rem) clamp(1rem, 2vw, 1.5rem);
+    background-color: #4aa3d6;
+    color: white;
+    border: 1px solid #4aa3d6;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.search-bar button:hover {
+    background-color: #367a9b;
+}
+
+/* Lien bouton "Ajouter un SA" */
+.ajoutSA-link {
+    text-decoration: none; /* Enlève la ligne sous le lien */
+}
+
+.ajoutSA {
+    background-color: #4aa3d6;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.ajoutSA:hover {
+    background-color: #358cb9;
+}
+
+/* Tableau */
+.table-container {
+    width: 100%;
+    overflow-y: auto;
+    max-height: clamp(300px, 50vh, 500px);
+    margin-top: clamp(1%, 1vw, 1%);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table th,
+.table td {
+    padding: clamp(0.5rem, 1vw, 1rem);
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    border-bottom: 1px solid #eee;
+}
+
+/* En-têtes fixes */
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #e0f7fa;
+    color: #333;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Lignes alternées */
+.table tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.table tbody tr:hover {
+    background-color: #d7f4f7;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.modifier,
+.poubelle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(2rem, 3vw, 2.5rem);
+    height: clamp(2rem, 3vw, 2.5rem);
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modifier img,
+.poubelle img {
+    width: 70%;
+}
+
+.modifier:hover,
+.poubelle:hover {
+    background-color: rgba(218, 214, 214, 0.55);
+}
+
+/* Icônes d'état */
+.status-icon {
+    font-size: clamp(1rem, 1.2vw, 1.3rem);
+}
+
+.status-icon.green {
+    color: #27ae60;
+}
+
+.status-icon.red {
+    color: #e74c3c;
+}
+
+.status-icon.gray {
+    color: #888;
+}

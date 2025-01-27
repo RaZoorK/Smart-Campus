@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer un Technicien{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/technicien/gestion_tech_supprimer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <!-- Inclure le header -->
+    {% include 'php/header.php' %}
+
+    <!-- Afficher la barre latérale selon le rôle -->
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Supprimer un Technicien</h1>
+        <p>Êtes-vous sûr de vouloir supprimer ce technicien ? Cette action est irréversible.</p>
+        <ul>
+            <li><strong>Nom :</strong> {{ technicien.nom }}</li>
+            <li><strong>Prénom :</strong> {{ technicien.prenom }}</li>
+            <li><strong>Email :</strong> {{ technicien.mail }}</li>
+            <li><strong>Téléphone :</strong> {{ technicien.telephone }}</li>
+            <li><strong>Fonction :</strong> {{ technicien.fonction }}</li>
+        </ul>
+        <div class="buttons">
+            <div>
+                <form action="{{ path('app_gestion_tech_supprimer', {'role': role, 'id': technicien.id}) }}" method="post" style="display: inline;">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </div>
+
+            <div>
+                <a href="{{ path('app_gestion_tech', {'role': role}) }}">Annuler</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

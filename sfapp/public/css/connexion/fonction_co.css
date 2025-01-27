@@ -1,0 +1,122 @@
+/* Styles globaux */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Montserra, sans-serif;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    display: flex; /* Ajout pour faire en sorte que le body soit un conteneur flexible */
+    flex-direction: column;
+}
+
+.container {
+    text-align: center;
+    width: 100%; /* Assurer que le conteneur prend toute la largeur de la page */
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2vw; /* Rayon des coins en fonction de la largeur de l'écran */
+    padding: 3%; /* Espacement à l'intérieur du conteneur en pourcentage */
+    width: 32%;
+    margin: 0 auto;
+}
+
+.login-box h3 {
+    font-size: 1.5vw; /* Taille de police relative à la largeur de l'écran */
+    color: #333;
+    margin-bottom: 1%; /* Espace sous le titre en pourcentage */
+}
+
+.login-box h4 {
+    margin-top: 1%;
+    margin-bottom: 3%; /* Espace en bas ajusté en pourcentage */
+}
+
+form {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.form-group {
+    margin-bottom: 4%; /* Espacement entre les groupes de formulaire en pourcentage */
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 1vw; /* Taille de la police relative à la largeur de l'écran */
+    color: #333;
+    margin-bottom: 2%; /* Espace sous le label */
+}
+
+.back-home {
+    margin-top: 5%;
+}
+
+input {
+    width: 100%;
+    padding: 3%; /* Ajustement du padding en pourcentage */
+    font-size: 1vw; /* Taille de la police relative à la largeur de l'écran */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn-submit {
+    background-color: #4fc3f7;
+    color: white;
+    border: none;
+    padding: 3% 6%; /* Ajuste les padding du bouton */
+    font-size: 1vw; /* Taille de la police relative à la largeur de l'écran */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #039be5;
+}
+
+#img {
+    margin-top: 8%; /* Réduit l'espacement sous l'image */
+    width: 50%; /* Largeur de l'image ajustée à 10% de la largeur de la fenêtre */
+    height: auto;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%; /* Prendre toute la largeur disponible */
+}
+
+.eye-icon {
+    position: absolute;
+    left: 90%; /* Placer l'icône à 2% du bord gauche */
+    top: 50%; /* Centrer verticalement */
+    transform: translateY(-50%); /* Ajuster pour un alignement parfait */
+}
+
+.eye-icon img {
+    width: 70%; /* Ajuster la taille de l'icône en fonction de la largeur */
+    height: auto;
+}
+
+.error-message {
+    background-color: #f8d7da; /* Fond rouge pâle */
+    color: #721c24; /* Texte rouge foncé */
+    border: 1px solid #f5c6cb; /* Bordure rouge clair */
+    padding: 2%; /* Espacement à l'intérieur du message d'erreur */
+    margin: 3% 0;
+    border-radius: 1vw; /* Rayon des coins en pourcentage */
+    font-weight: bold;
+    text-align: center;
+}

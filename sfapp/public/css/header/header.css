@@ -1,0 +1,276 @@
+/* Header Styles */
+.header {
+    width: 100%;
+    background: #edede7;
+    text-align: center;
+    border-bottom: 0.05vh solid #ccc; /* 1px ~ 0.05vh */
+    position: relative;
+    top: 0;
+    box-shadow: 0 0.18vh 0.46vh rgba(0, 0, 0, 0.1); /* Ombre */
+    padding: 1.5vh 0; /* Espace vertical augmenté */
+    font-family: Montserra, sans-serif;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 0 1.04vw; /* 20px sur les côtés */
+}
+
+.titre-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.titre-logo h1 {
+    font-family: 'Montserra', sans-serif;
+    font-size: clamp(1rem, 5vw, 2.5rem); /* Taille minimale, ajustée, et maximale */
+    color: #2C3E50;
+    margin: 0;
+}
+
+#logo {
+    width: 100px; /* Taille fixe en pixels */
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin-right: 0.5vw;
+}
+
+/* Menu à gauche */
+.menu-btn {
+    font-size: 1.8rem; /* Agrandissement du bouton menu */
+    color: #555;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Icônes à droite */
+.icons {
+    display: flex;
+    justify-items: right;
+    align-items: center;
+    gap: 0.7vw; /* Espacement plus large entre les icônes */
+}
+
+.problem-report {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Utiliser 100% pour qu'elle prenne toute la largeur de son parent */
+    max-width: 30%; /* Limiter la largeur maximale */
+    margin: 0 auto; /* Centrer la div */
+    padding: clamp(1rem, 2%, 2rem); /* Espacement interne */
+    margin-top: 2%;
+}
+
+/* Problem Report Section */
+.problem-report p {
+    color: #2C3E50;
+    margin-bottom: 1%;
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 2rem); /* Taille proportionnelle */
+}
+
+.report-button {
+    margin-top: 2%;
+    background-color: #f2b8a1;
+    border: none;
+    border-radius: 0.5rem;
+    color: #2C3E50;
+    padding: clamp(0.5rem, 1vw, 1.5rem);
+    font-size: clamp(0.8rem, 1.5vw, 2rem); /* Taille du bouton proportionnelle */
+    cursor: pointer;
+}
+
+.report-button:hover {
+    background-color: #f0a589;
+}
+
+.notification, .profile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.notification .icon, .profile .icon {
+    font-size: 1.8rem; /* Agrandir les icônes */
+}
+
+.notification .badge {
+    position: absolute;
+    top: -0.5vh;
+    right: -0.26vw; /* -5px */
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.9rem; /* Taille ajustée */
+    padding: 0.2vh 0.3vw; /* Ajustement du padding */
+    border-radius: 50%;
+}
+
+.profile span {
+    margin-top: 0.46vh; /* Espace en haut */
+    color: #333;
+    font-size: 0.9rem;
+}
+
+/* Rôle sous le profil */
+#name-display {
+    font-size: 0.9rem;
+    color: #2C3E50;
+    margin-top: 0.5vh; /* Espacement vertical */
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Style pour le menu déroulant */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.52vw; /* 10px */
+}
+
+.mainmenubtn {
+    font-size: 1.5rem; /* Taille plus grande */
+    background-color: #edede7;
+    color: #2C3E50;
+    border: 0.05vh solid #ccc; /* 1px */
+    border-radius: 0.3vw; /* Arrondi léger */
+    padding: 1vh 1vw; /* Padding plus grand */
+    cursor: pointer;
+    box-shadow: 0 0.18vh 0.46vh rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mainmenubtn:hover {
+    background-color: #2C3E50;
+    color: #edede7;
+}
+/* Style pour le menu déroulant amélioré */
+.dropdown-child {
+    display: none;
+    position: absolute;
+    background-color: #ffffff; /* Fond blanc pour un design moderne */
+    min-width: 8vw; /* Légèrement plus large */
+    border: 0.05vh solid #ccc; /* Bord fin */
+    box-shadow: 0 0.37vh 0.74vh rgba(0, 0, 0, 0.2); /* Ombre subtile */
+    border-radius: 0.5vw; /* Arrondi plus important */
+    z-index: 1;
+    top: 5.5vh; /* Espacement vertical */
+    right: 0;
+    opacity: 0;
+    transform: translateY(-10%);
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Animation fluide */
+    overflow: hidden; /* Empêcher le contenu qui déborde */
+}
+
+.dropdown-child p,
+.dropdown-child a,
+.dropdown-child select {
+    font-family: 'Montserra', sans-serif;
+    color: #2C3E50; /* Couleur de texte cohérente */
+    font-size: 1rem; /* Texte plus lisible */
+    margin: 0;
+    padding: 0.8vh 1vw; /* Padding plus confortable */
+    display: block;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-child p:hover,
+.dropdown-child a:hover,
+.dropdown-child select:hover {
+    background-color: #2C3E50; /* Surlignage au survol */
+    color: #ffffff; /* Texte inversé */
+    border-radius: 0.3vw; /* Arrondi léger au survol */
+}
+
+.dropdown:hover .dropdown-child {
+    display: block;
+    opacity: 1; /* Apparition fluide */
+    transform: translateY(0); /* Annulation du décalage */
+}
+
+/* Style des options du sélecteur */
+.dropdown-child select {
+    width: 100%;
+    padding: 0.93vh;
+    font-size: 1rem; /* 16px */
+    border: none;
+    background: #f5f5f5; /* Fond légèrement grisé */
+    color: #2C3E50;
+    border-radius: 0.26vw; /* Légèrement arrondi */
+    margin-bottom: 0.8vh; /* Espacement entre les éléments */
+    transition: box-shadow 0.3s ease;
+}
+
+.dropdown-child select:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0.18vh 0.46vh rgba(0, 0, 0, 0.2); /* Mise en évidence */
+    outline: none;
+}
+
+/* Bouton spécifique "Se déconnecter" */
+.dropdown-child a.logout-btn {
+    background-color: #e74c3c; /* Couleur de fond pour le bouton */
+    color: #ffffff; /* Couleur de texte contrastée */
+    font-weight: bold;
+    text-align: center; /* Centrer le texte */
+    border-radius: 0.3vw; /* Bord arrondi */
+    padding: 1vh 1vw; /* Padding pour le bouton */
+    margin-top: 0.8vh; /* Espacement par rapport aux autres éléments */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    display: block; /* Occupe toute la largeur du conteneur */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-child a.logout-btn:hover {
+    background-color: #c0392b; /* Couleur plus foncée au survol */
+    color: #ffffff; /* Assurer un contraste */
+}
+
+/* Espacement entre les options du menu et le bouton */
+.dropdown-child p,
+.dropdown-child a:not(.logout-btn),
+.dropdown-child select {
+    margin-bottom: 0.5vh;
+}
+
+/* Ajustement des icônes de notification */
+.notification-icon {
+    position: relative;
+    font-size: 1.8rem; /* Icône plus grande */
+    cursor: pointer;
+    color: #555;
+}
+
+.notification-count {
+    position: absolute;
+    top: -0.5vh;
+    right: -0.52vw; /* -10px */
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    padding: 0.18vh 0.3vw; /* 2px 6px */
+    font-size: 0.9rem; /* ~14px */
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+}
+
+a{
+    text-decoration: none;
+}

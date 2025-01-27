@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Salles{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/salle/gestion_salle.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <h3>Liste des salles </h3>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <div class="formulaire">
+            <div class="search-bar">
+                {{ form_start(form) }}
+
+                {{ form_widget(form.nom, {'attr': {'placeholder': 'Rechercher une salle'}}) }}
+                <button type="submit">🔍</button>
+                {{ form_widget(form.batiment, {'attr': {'placeholder': 'Filtrer par bâtiment'}}) }}
+                {{ form_widget(form.etage, {'attr': {'placeholder': 'Filtrer par étage'}}) }}
+
+                {{ form_end(form) }}
+
+                <a href="{{ path('app_gestion_salle_ajouter', { 'role': role }) }}" class="ajoutSalle-link">
+                    <div class="ajoutSalle">
+                        <p> Ajouter une salle </p>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Tableau des salles -->
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nom de la salle</th>
+                        <th>Nom du SA</th>
+                        <th>Nom du bâtiment</th>
+                        <th>Num. d'étage</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for salle in salles %}
+                        <tr>
+                            <td>{{ salle.nom }}</td>
+                            <td>{{ salle.SA is not null ? salle.SA.nomSA : 'N/A' }}</td>
+                            <td>{{ salle.batiment }}</td>
+                            <td>{{ salle.etage }}</td>
+                            <td class="actions">
+                                <div class="modifier">
+                                    <a href="{{ path('app_gestion_salle_modifier', { 'role': role, 'Nom': salle.Nom }) }}">
+                                        <img src="{{ asset("images/actions/modifier.png") }}" alt="Modifier" >
+                                    </a>
+                                </div>
+
+                                <div class="poubelle">
+                                    <a href="{{ path('app_gestion_salle_supprimer_confirm', { 'role': role, 'Nom': salle.Nom}) }}">
+                                        <img src="{{ asset("images/actions/poubelle.png") }}" alt="Supprimer">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <button><a href="{{ path('app_choix_salles', {role}) }}">Retour choix salles</a></button>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signaler une Anomalie{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset("css/notification/anomalie.css") }}>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% endif %}
+
+    <div class="formulaire">
+        <h1>Signaler une anomalie</h1>
+        {{ form_start(form) }}
+        {% if role == 'Occupant' %}
+            {# Si l'utilisateur a le rôle "Occupant", afficher les champs expediteurNom et expediteurPrenom #}
+            {{ form_row(form.expediteurNom) }}
+            {{ form_row(form.expediteurPrenom) }}
+        {% endif %}
+
+        {{ form_row(form.sujet) }}
+        {{ form_row(form.message) }}
+        {{ form_row(form.saConcerne) }}
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+            {{ form_end(form) }}
+            {% for success in app.flashes('success') %}
+                <div class="valid-feedback">{{ success }}</div>
+            {% endfor %}
+            <a href="{{ path('app_donnees', {role: role, salle: salleNom}) }}"> Annuler </a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+

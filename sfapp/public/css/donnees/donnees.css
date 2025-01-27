@@ -1,0 +1,451 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: auto; /* Permet le défilement */
+    scrollbar-width: none; /* Pour Firefox */
+    -ms-overflow-style: none; /* Pour Internet Explorer */
+    justify-content: flex-start; /* Aligner au début */
+    align-items: center; /* Centrer les éléments horizontalement */
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ceffff, #7ce0ec, #7ecced);
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    font-family: Montserra, sans-serif;
+    font-size: clamp(12px, 1.2vw, 18px); /* Police adaptable selon l'écran */
+    color: #2C3E50;
+}
+
+body::-webkit-scrollbar {
+    width: 0; /* Masque la barre de défilement */
+    background: transparent; /* Rend l'arrière-plan de la scrollbar transparent */
+}
+
+.tout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2%;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap; /* Permet au contenu de passer à la ligne si nécessaire */
+}
+
+.tout h2 {
+    text-align: center;
+    font-size: clamp(2rem, 3vw, 4rem); /* Taille de titre proportionnelle */
+    color: #2C3E50; /* Couleur pour les titres */
+}
+
+/* Main Content Grid */
+.content-grid {
+    display: flex;
+    flex-direction: row; /* Arrange elements in a row */
+    justify-content: space-between; /* Space out elements evenly */
+    gap: 2%;
+    max-width: 90%; /* Ajusté pour être proportionnel */
+    width: 100%;
+    padding: 2%;
+    margin-top: 2%;
+    flex-wrap: wrap; /* Permet au contenu de passer à la ligne si nécessaire */
+}
+
+/* Box Styling */
+.box {
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 1rem;
+    padding: clamp(1rem, 2%, 2rem); /* Adaptation des paddings */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+}
+
+/* Temperature and Humidity Sections */
+.temperature-section,
+.humidity-section,
+.co2-section,
+.temperature-section-tend,
+.humidity-section-tend,
+.co2-section-tend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.problem-report {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Utiliser 100% pour qu'elle prenne toute la largeur de son parent */
+    max-width: 30%; /* Limiter la largeur maximale */
+    margin: 0 auto; /* Centrer la div */
+    padding: clamp(1rem, 2%, 2rem); /* Espacement interne */
+    margin-top: 2%;
+}
+
+.circle-container {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    flex-wrap: wrap; /* Gérer les débordements */
+    font-size: clamp(0.5rem, 2vw, 2.5rem); /* Taille proportionnelle à l'écran */
+    gap: 2%; /* Espacement entre les cercles */
+    width: 100%;
+}
+
+/* Circle Styling */
+.circle {
+    background: linear-gradient(135deg, #edd0af, #c88d9d);
+    border-radius: 50%;
+    width: 25vw;
+    height: 25vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+    color: black;
+    opacity: 70%;
+    font-size: clamp(0.5rem, 2vw, 2.5rem); /* Taille proportionnelle à l'écran */
+    border: 0.5vw solid white; /* Contour blanc transparent */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* Ombre légère et opaque */
+}
+
+/* Data inside circles */
+.temp-value,
+.humidity-value,
+.co2-value {
+    font-size: clamp(1rem, 2vw, 3rem); /* Texte adaptatif proportionnel */
+    font-weight: bold;
+    margin-top: 5%;
+}
+
+.temperature-content {
+    display: flex;
+    align-items: center; /* Aligne verticalement l'image et la valeur */
+    justify-content: center; /* Centrer le contenu si nécessaire */
+    gap: 1%;
+    width: 100%;
+}
+
+#Augmentation, #Diminution {
+    margin-top: 0.5%;
+    width: 3vw;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin-right: 1%;
+    margin-left: -1%;
+}
+
+.arrow-button {
+    background: transparent;
+    border: none;
+    font-size: clamp(0.8rem, 1.5vw, 2rem); /* Boutons proportionnels */
+    color: gray;
+    cursor: pointer;
+    margin: 0.5%;
+}
+
+/* Weekly Trend Section */
+.weekly-trend {
+    padding-top: 2%;
+    text-align: center;
+    margin-top: 2%;
+    width: 100%;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Légère ombre autour de la section */
+}
+
+/* Titre de la section */
+.weekly-trend h3 {
+    margin: 1%;
+    color: #2C3E50; /* Couleur foncée pour contraster avec le fond */
+    font-size: clamp(1rem, 2vw, 2.5rem);
+}
+
+/* Weekly Data Layout */
+.week {
+    display: flex;
+    justify-content: space-between;
+    color: #2C3E50;
+    font-size: clamp(0.8rem, 1.5vw, 1.7rem); /* Texte des températures proportionnel */
+    font-weight: bold;
+    margin-top: 1%;
+    flex-wrap: nowrap; /* Empêche les éléments de passer à la ligne suivante */
+    gap: 1%; /* Ajoute un espacement uniforme entre les jours */
+}
+
+.week span {
+    display: inline-block;
+    padding: clamp(0.5rem, 1%, 1rem);
+    text-align: center;
+    width: 13%; /* Réduit la largeur pour ajuster les 7 jours sur une ligne */
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.6); /* Fond léger pour chaque jour */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1%; /* Ajoute un margin-top entre les jours */
+}
+
+/* Section spécifique pour chaque type de donnée */
+#temperature-week, #humidity-week, #co2-week {
+    transition: 0.3s ease-in-out;
+}
+
+/* Mise en valeur des données pour chaque jour */
+.week span strong {
+    color: #5cb0e5; /* Accentuation des valeurs avec une couleur bleu clair */
+}
+
+.week span p {
+    font-size: clamp(0.8rem, 1.2vw, 1.6rem); /* Taille du texte pour la valeur */
+    color: #2C3E50;
+    margin-top: 0.5rem;
+}
+
+.week span:last-child {
+    border-right: none;
+}
+
+/* Styles généraux pour .week span */
+.week span {
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* Animation de transition entre la semaine et le mois */
+.fade-in, .fade-out {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Flexbox pour le milieu et la donnée */
+.milieu {
+    display: flex;
+    justify-content: space-between; /* Espacement uniforme */
+    width: 100%; /* Prendre toute la largeur */
+    gap: 5%;
+    margin-top: 2%;
+}
+
+.donnee {
+    display: flex;
+    justify-content: space-between; /* Espacer les éléments dans la colonne */
+    gap: 2%;
+    width: 100%; /* Prendre toute la largeur */
+}
+
+/* Problem Report Section */
+.problem-report p {
+    color: #2C3E50;
+    margin-bottom: 1%;
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 2rem); /* Taille proportionnelle */
+}
+
+.report-button {
+    margin-top: 2%;
+    background-color: #f2b8a1;
+    border: none;
+    border-radius: 0.5rem;
+    color: #2C3E50;
+    padding: clamp(0.5rem, 1vw, 1.5rem);
+    font-size: clamp(0.8rem, 1.5vw, 2rem); /* Taille du bouton proportionnelle */
+    cursor: pointer;
+}
+
+.report-button:hover {
+    background-color: #f0a589;
+}
+
+/* Toggle Buttons */
+.toggle-buttons {
+    position: absolute;
+    top: 1.5%;
+    right: 1.5%;
+    display: flex;
+    gap: 1%;
+    width: 20%;
+}
+
+.toggle-buttons input[type="radio"] {
+    display: none;
+}
+
+.toggle-button {
+    background: transparent;
+    color: #2C3E50;
+    border: 0.2rem solid #c88d9d;
+    padding: clamp(0.4rem, 1%, 2rem);
+    margin-top: 1%;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: clamp(0.5rem, 1.2vw, 2rem); /* Texte adaptatif */
+    width: calc(100% - 1rem); /* Largeur proportionnelle pour deux boutons */
+    text-align: center; /* Centrer le texte */
+    display: flex; /* Flexbox pour centrer */
+    align-items: center; /* Centrer verticalement */
+    justify-content: center; /* Centrer horizontalement */
+    transition: 0.3s, border 0.3s, color 0.3s;
+}
+
+.toggle-buttons :hover {
+    border-color: #b07686;
+    background: linear-gradient(135deg, #99d0d6, #a4b8c8);
+}
+
+#semaine:checked + label[for="semaine"],
+#mois:checked + label[for="mois"] {
+    background: linear-gradient(135deg, #edd0af, #c88d9d);
+    color: #2C3E50;
+    border: none;
+    box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.2);
+    display: flex; /* Flexbox pour centrer */
+    align-items: center; /* Centrer verticalement */
+    justify-content: center; /* Centrer horizontalement */
+}
+
+/* Animation */
+.fade-out {
+    animation: fadeOut 0.2s forwards;
+}
+
+.fade-in {
+    animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Par défaut, les sections sont masquées */
+.toggle-box {
+    display: none;
+}
+
+/* La classe "active" rend une section visible */
+.toggle-box.toggle-active {
+    display: flex;
+}
+
+#temperatureDailyChart, #humidityDailyChart, #co2DailyChart {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+
+.voir-plus-button {
+    margin: 1rem auto; /* Ajoute un espace autour et centre horizontalement */
+    padding: 0.5rem 1rem;
+    background-color: #5cb0e5;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    display: block; /* Nécessaire pour centrer avec margin auto */
+    text-align: center;
+}
+
+.voir-plus-button:hover {
+    background-color: #4693c6;
+}
+
+
+.alert-container {
+    display: flex;
+    align-items: center; /* Centre verticalement les enfants */
+    gap: 15px; /* Espace entre l'icône et le texte */
+    width: 100%; /* Occupe toute la largeur disponible */
+    padding: 15px; /* Ajoute un peu d'espace autour */
+    background: linear-gradient(to right, rgba(247, 87, 87, 0.35), rgba(247, 87, 87, 0.15) 50%, rgba(247, 87, 87, 0.25));
+    border-left: 5px solid #aa0000;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 40px;
+    margin-top: 5px;
+}
+
+.alert-container span {
+    display: flex; /* Définit le comportement flex pour le conteneur */
+    align-items: center; /* Aligne verticalement le contenu */
+    gap: 10px; /* Assure un petit espace entre l'icône et le texte */
+}
+
+.alert-container svg {
+    height: 50px; /* Taille de l'icône */
+    fill: #aa0000; /* Couleur de l'icône */
+}
+
+.alert-container p {
+    flex-grow: 1; /* Permet au texte d'occuper l'espace restant */
+    font-size: 23px; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    color: black; /* Couleur du texte */
+    margin: 0; /* Supprime les marges par défaut */
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+
+/* From Uiverse.io by CodeM7710 */
+.card {
+    display: flex;
+    align-items: center; /* Centre verticalement les enfants */
+    gap: 15px; /* Espace entre l'icône et le texte */
+    width: 100%; /* Occupe toute la largeur disponible */
+    padding: 15px; /* Ajoute un peu d'espace autour */
+    background: linear-gradient(to right, rgba(255, 148, 56, 0.35), rgba(255, 165, 0, 0.15) 50%, rgba(255, 165, 0, 0.25));
+    border-left: 5px solid #ff9100;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 40px;
+    margin-top: 5px;
+}
+
+.card svg {
+    height: 50px; /* Taille de l'icône */
+    fill: #ff9100; /* Couleur de l'icône */
+}
+
+.card li{
+    flex-grow: 1; /* Permet au texte d'occuper l'espace restant */
+    display : flex;
+    flex-direction: column;
+    font-size: 18px; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    color: black; /* Couleur du texte */
+    margin: 0; /* Supprime les marges par défaut */
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+.card span {
+    display: flex; /* Définit le comportement flex pour le conteneur */
+    align-items: center; /* Aligne verticalement le contenu */
+    gap: 3px; /* Assure un petit espace entre l'icône et le texte */
+}

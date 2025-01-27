@@ -1,0 +1,1115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Données Climatiques{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset("css/donnees/donnees.css") }}>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'php/header.php' %}
+
+    {% if role == 'Manager' %}
+        {% include 'php/sidebarManager.php' %}
+    {% elseif role == 'Technicien' %}
+        {% include 'php/sidebarTechnicien.php' %}
+    {% elseif role == 'Occupant' %}
+        {% include 'php/sidebarOccupant.php' %}
+    {% endif %}
+
+    <section class="content-grid">
+        <div class="tout">
+            <h2>{{ salleNom }}</h2>
+
+            <div class="milieu">
+                <!-- Température, Humidité, CO₂ (Valeurs actuelles) -->
+                <div class="temperature-section toggle-box toggle-active box" id="temperature-section">
+                    <button class="arrow-button left">❮</button>
+
+                    <div class="circle-container">
+                        <h3 class="title" style="margin-bottom: 15px;">Données actuelles</h3>
+                        <div class="circle">
+                            <h3 id="current-temperature-title">Température</h3>
+                            {% set temp = donnees|filter(item => item.nom == 'temp' and item.localisation == salleNom) %}
+                            {% set seuilTemp = seuils|filter(seuil => seuil.type == 'Température')|first %}
+                            {% set derniereTemp = temp|length > 0 ? (temp|sort((a, b) => a.dateCapture < b.dateCapture ? 1 : -1)|first) : null %}
+
+                            <p class="temp-value">{{ derniereTemp is not null ? derniereTemp.valeur ~ '°C' : 'N/A' }}</p>
+                        </div>
+
+                        {% if derniereTemp is not null%}
+                            {% if derniereTemp.valeur > seuilTemp.valeurMax or derniereTemp.valeur < seuilTemp.valeurMin %}
+                                <div class="alert-container">
+                                    <span>
+                                        <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle">
+                                            <path d="m569.517 440.013c18.458 31.994-4.711 71.987-41.577 71.987h-479.886c-36.937 0-59.999-40.055-41.577-71.987l239.946-416.028c18.467-32.009 64.72-31.951 83.154 0zm-281.517-86.013c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346 7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" />
+                                        </svg>
+                                        {% if derniereTemp.valeur > seuilTemp.valeurMax %}
+                                            <p class="alert">Attention : la température dépasse la valeur maximale de {{ seuilTemp.valeurMax }}°C !</p>
+                                        {% elseif derniereTemp.valeur < seuilTemp.valeurMin %}
+                                            <p class="alert">Attention : la température est inférieure à la valeur minimale de {{ seuilTemp.valeurMin }}°C !</p>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="card">
+                                <span>
+                                    <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                        <path d="m256 8c-136.957 0-248 111.083-248 248 0 136.997 111.043 248 248 248s248-111.003 248-248c0-136.917-111.043-248-248-248zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12z"></path>
+                                    </svg>
+
+                                    <ul>
+                                        {% if derniereTemp.valeur > seuilTemp.valeurMax %}
+                                            <li>- Vérifier que le chauffage est éteint<br></li>
+                                        {% endif %}
+
+                                        {% if derniereTemp.valeur > seuilTemp.valeurMax + 2 %}
+                                            <li>- Ouvrir les fenêtres.</li>
+                                        {% endif %}
+
+                                        {% if derniereTemp.valeur < seuilTemp.valeurMin %}
+                                            <li>- Vérifiez la fermeture des fenêtres</li>
+                                        {% if derniereTemp.valeur < seuilTemp.valeurMin - 2 %}
+                                            <li>- Allumez les radiateurs !!</li>
+                                        {% endif %}
+                                        {% endif %}
+
+                                    </ul>
+                                </span>
+                                </div>
+                            {% endif %}
+                        {% elseif seuilTemp is empty %}
+                            <div class="alert-container">
+                                <p class="alert">Aucun seuil de température défini.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button class="arrow-button right">❯</button>
+                </div>
+
+
+                <div class="humidity-section toggle-box box" id="humidity-section">
+                    <button class="arrow-button left">❮</button>
+                    <div class="circle-container">
+                        <h3 class="title" style="margin-bottom: 15px;">Données actuelles</h3>
+                        <div class="circle">
+                            <h3>Humidité</h3>
+                            {% set humidity = donnees|filter(item => item.nom == 'hum' and item.localisation == salleNom) %}
+                            {% set seuilHum = seuils|filter(seuil => seuil.type == 'Humidité')|first %}
+                            {% set derniereHum = humidity|length > 0 ? (humidity|sort((a, b) => a.dateCapture < b.dateCapture ? 1 : -1)|first) : null %}
+
+                            <p class="humidity-value">{{ derniereHum is not null ? derniereHum.valeur ~ '%' : 'N/A' }}</p>
+                        </div>
+
+                        {% if derniereHum is not null and seuilHum is not null and seuilHum.valeurMax is defined and seuilHum.valeurMin is defined %}
+                            {% if derniereHum.valeur > seuilHum.valeurMax or derniereHum.valeur < seuilHum.valeurMin %}
+                                <div class="alert-container">
+                    <span>
+                        <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle">
+                            <path d="m569.517 440.013c18.458 31.994-4.711 71.987-41.577 71.987h-479.886c-36.937 0-59.999-40.055-41.577-71.987l239.946-416.028c18.467-32.009 64.72-31.951 83.154 0zm-281.517-86.013c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346 7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" />
+                        </svg>
+                    {% if derniereHum.valeur > seuilHum.valeurMax %}
+                        <p class="alert">Attention : l'humidité dépasse la valeur maximale de {{ seuilHum.valeurMax }}% !</p>
+                    {% elseif derniereHum.valeur < seuilHum.valeurMin %}
+                        <p class="alert">Attention : l'humidité est inférieure à la valeur minimale de {{ seuilHum.valeurMin }}% !</p>
+                    {% endif %}
+                    </span>
+                                </div>
+                            {% endif %}
+                        {% elseif seuilHum is empty %}
+                            <div class="alert-container">
+                                <p class="alert">Aucun seuil d'humidité défini.</p>
+                            </div>
+                        {% endif %}
+
+                        {% if derniereHum is not null and seuilHum is not null and seuilHum.valeurMax is defined %}
+                        {% if derniereHum.valeur > seuilHum.valeurMax or derniereHum.valeur < seuilHum.valeurMin%}
+                            <div class="card">
+                                <span>
+                                    <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                        <path d="m256 8c-136.957 0-248 111.083-248 248 0 136.997 111.043 248 248 248s248-111.003 248-248c0-136.917-111.043-248-248-248zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12z"></path>
+                                    </svg>
+                                    <ul>
+                                    {% if derniereHum.valeur > seuilHum.valeurMax %}
+                                        <li>- Aérer la pièce</li>
+                                    {% elseif derniereHum.valeur < seuilHum.valeurMin %}
+                                        <li>- Aérer la pièce</li>
+                                    {% endif %}
+                                    </ul>
+                                </span>
+                            </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <button class="arrow-button right">❯</button>
+                </div>
+
+
+                <div class="co2-section toggle-box box" id="co2-section">
+                    <button class="arrow-button left">❮</button>
+                    <div class="circle-container">
+                        <h3 class="title" style="margin-bottom: 15px;">Données actuelles</h3>
+                        <div class="circle">
+                            <h3>CO2</h3>
+                            {% set co2 = donnees|filter(item => item.nom == 'co2' and item.localisation == salleNom) %}
+                            {% set seuilCo2 = seuils|filter(seuil => seuil.type == 'CO2')|first %}
+                            {% set dernierCO2 = co2|length > 0 ? (co2|sort((a, b) => a.dateCapture < b.dateCapture ? 1 : -1)|first) : null %}
+
+                            <p class="co2-value">{{ dernierCO2 is not null ? dernierCO2.valeur ~ ' ppm' : 'N/A' }}</p>
+                        </div>
+
+                        {% if dernierCO2 is not null and seuilCo2 is not null and seuilCo2.valeurMax is defined and seuilCo2.valeurMin is defined %}
+                            {% if dernierCO2.valeur > seuilCo2.valeurMax or dernierCO2.valeur < seuilCo2.valeurMin %}
+                                <div class="alert-container">
+                    <span>
+                        <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle">
+                            <path d="m569.517 440.013c18.458 31.994-4.711 71.987-41.577 71.987h-479.886c-36.937 0-59.999-40.055-41.577-71.987l239.946-416.028c18.467-32.009 64.72-31.951 83.154 0zm-281.517-86.013c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346 7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" />
+                        </svg>
+                    {% if dernierCO2.valeur > seuilCo2.valeurMax %}
+                        <p class="alert">Attention : le CO2 dépasse la valeur maximale de {{ seuilCo2.valeurMax }} ppm !</p>
+                    {% elseif dernierCO2.valeur < seuilCo2.valeurMin %}
+                        <p class="alert">Attention : le CO2 est inférieur à la valeur minimale de {{ seuilCo2.valeurMin }} ppm !</p>
+                    {% endif %}
+                    </span>
+                                </div>
+                            {% endif %}
+                        {% elseif seuilCo2 is empty %}
+                            <div class="alert-container">
+                                <p class="alert">Aucun seuil de CO2 défini.</p>
+                            </div>
+                        {% endif %}
+
+                        {% if dernierCO2 is not null and seuilCo2 is not null and seuilCo2.valeurMax is defined %}
+                        {% if dernierCO2.valeur > seuilCo2.valeurMax %}
+                            <div class="card">
+                                <span>
+                                    <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                        <path d="m256 8c-136.957 0-248 111.083-248 248 0 136.997 111.043 248 248 248s248-111.003 248-248c0-136.917-111.043-248-248-248zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12z"></path>
+                                    </svg>
+                                    <ul>
+                                    {% if dernierCO2.valeur > seuilCo2.valeurMax %}
+                                        <li>Aérer la pièce, ouvrez les fenêtres</li>
+                                    {% endif %}
+                                    </ul>
+                                </span>
+                            </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <button class="arrow-button right">❯</button>
+                </div>
+
+                <!-- Température, Humidité, CO₂ (Différences avec les données précédentes) -->
+                <div class="donnee">
+                    <div class="temperature-section-tend toggle-box toggle-active box" id="temperature-section-tend">
+                        <div class="circle-container">
+                            <h3 class="title" style="margin-bottom: 15px;">Tendances température</h3>
+                                <p class="diff-value">
+                                    <canvas id="temperatureDailyChart" class="chart"></canvas>
+                                </p>
+                        </div>
+                    </div>
+
+                    <div class="humidity-section-tend toggle-box toggle-active box" id="humidity-section-tend">
+                        <div class="circle-container">
+                            <h3 class="title" style="margin-bottom: 15px;">Tendances humidité</h3>
+                                <p class="diff-value">
+                                    <canvas id="humidityDailyChart" class="chart"></canvas>
+                                </p>
+                        </div>
+                    </div>
+
+                    <div class="co2-section-tend toggle-box toggle-active box" id="co2-section-tend">
+                        <div class="circle-container">
+                            <h3 class="title" style="margin-bottom: 15px;">Tendances co2</h3>
+                                <p class="diff-value">
+                                    <canvas id="co2DailyChart" class="chart"></canvas>
+                                </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tendances hebdomadaires -->
+            <div class="weekly-trend box">
+                <h3 id="weekly-temperature-title">Température</h3>
+
+                <div class="toggle-buttons">
+                    <input type="radio" id="semaine" name="view" checked>
+                    <label for="semaine" class="toggle-button" data-value="semaine">Semaine</label>
+
+                    <input type="radio" id="mois" name="view">
+                    <label for="mois" class="toggle-button" data-value="mois">Mois</label>
+                </div>
+
+                <!-- Affichage des 7 derniers jours par défaut -->
+                <div class="week" id="temperature-week">
+                    {% for day, donnees in derniereSemaine %}
+                        <span><strong>{{ donnees.jourDeLaSemaine }}</strong> <br><br>
+            <strong>{{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) ~ '°C' : 'N/A' }}</strong> <br>
+        </span>
+                    {% endfor %}
+                </div>
+
+                <!-- Affichage des 30 derniers jours -->
+                <div class="week" id="temperature-month" style="display: none;">
+                    {% for day, donnees in dernierMois %}
+                        <span><strong>{{ day|date('d/m') }}</strong><br>
+            {{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) ~ '°C' : 'N/A' }}
+        </span>
+                    {% endfor %}
+                </div>
+
+                <!-- Affichage de l'humidité pour la semaine -->
+                <div class="week" id="humidity-week" style="display: none;">
+                    {% for day, donnees in derniereSemaine %}
+                        <span><strong>{{ donnees.jourDeLaSemaine }}</strong> <br><br>
+            <strong>{{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) ~ '%' : 'N/A' }}</strong> <br>
+        </span>
+                    {% endfor %}
+                </div>
+
+                <!-- Affichage du CO2 pour la semaine -->
+                <div class="week" id="co2-week" style="display: none;">
+                    {% for day, donnees in derniereSemaine %}
+                        <span><strong>{{ donnees.jourDeLaSemaine }}</strong> <br><br>
+            <strong>{{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) ~ 'ppm' : 'N/A' }}</strong>
+        </span>
+                    {% endfor %}
+                </div>
+
+                <button id="voir-plus" class="voir-plus-button" style="display: none;">Voir plus</button>
+
+                <!-- Graphiques pour la température, humidité et CO2 -->
+                <div class="chart-container">
+                    <canvas id="temperatureChart" class="chart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="humidityChart" class="chart" style="display: none;"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="co2Chart" class="chart" style="display: none;"></canvas>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Données JSON injectées depuis le contrôleur
+            const donneesPourGraphique = {{ donneesPourGraphique|json_encode|raw }};
+
+            // Nom de la salle (cette variable devrait être injectée également depuis le contrôleur)
+            const salleNom = '{{ salleNom }}';  // Assurez-vous que la variable salleNom est passée correctement à JavaScript
+
+            // Filtrer les données pour la salle spécifiée
+            const dataForSelectedSalle = donneesPourGraphique.filter(entry => entry.localisation === salleNom);
+
+            // Obtenir la dernière date disponible parmi les données filtrées pour la salle
+            const lastDate = dataForSelectedSalle.reduce((latest, entry) => {
+                const entryDate = entry.dateCapture.split(' ')[0];
+                return entryDate > latest ? entryDate : latest;
+            }, '');
+
+            // Filtrer les données pour ne garder que celles de la dernière date pour la salle
+            const lastDateData = dataForSelectedSalle.filter(entry => entry.dateCapture.split(' ')[0] === lastDate);
+
+            // Trier les données par heure dans l'ordre chronologique
+            lastDateData.sort((a, b) => new Date(a.dateCapture) - new Date(b.dateCapture));
+
+            // Température
+            const temperatureData = lastDateData.filter(entry => entry.nom === 'temp').map(entry => parseFloat(entry.valeur)); // Températures
+            const temperatureLabels = lastDateData.filter(entry => entry.nom === 'temp').map(entry => entry.dateCapture.split(' ')[1]); // Heures des données de température
+
+            // Humidité
+            const humidityData = lastDateData.filter(entry => entry.nom === 'hum').map(entry => parseFloat(entry.valeur)); // Humidité
+            const humidityLabels = lastDateData.filter(entry => entry.nom === 'hum').map(entry => entry.dateCapture.split(' ')[1]); // Heures des données d'humidité
+
+            // CO2
+            const co2Data = lastDateData.filter(entry => entry.nom === 'co2').map(entry => parseFloat(entry.valeur)); // CO2
+            const co2Labels = lastDateData.filter(entry => entry.nom === 'co2').map(entry => entry.dateCapture.split(' ')[1]); // Heures des données de CO2
+
+            const seuilTempMin = {{ seuilTemp.valeurMin ?? 19 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilTempMax = {{ seuilTemp.valeurMax ?? 24 }};
+
+            const seuilHumMin = {{ seuilHum.valeurMin ?? 30 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilHumMax = {{ seuilHum.valeurMax ?? 70 }};
+
+            const seuilCo2Min = {{ seuilCo2.valeurMin ?? 400 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilCo2Max = {{ seuilCo2.valeurMax ?? 1500 }};
+
+            // Graphique de la température
+            const temperatureCtx = document.getElementById('temperatureDailyChart').getContext('2d');
+            new Chart(temperatureCtx, {
+                type: 'line',
+                data: {
+                    labels: temperatureLabels, // Heures de la température
+                    datasets: [{
+                        label: `Température du ${lastDate} (°C)`,
+                        data: temperatureData, // Températures pour la dernière date
+                        borderColor: 'rgba(0, 0, 0, 1)',  // Couleur de la bordure (noir opaque)
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Couleur de fond de la courbe
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            min: 16,
+                            max: 28,
+                            grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold'  // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        },
+                        x: {
+                            grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 30,
+                                font: {
+                                    weight: 'bold'  // Mettre les heures de l'axe des abscisses en gras
+                                }
+                            }
+                        }
+                    },
+                    elements: { line: { tension: 0.4 } },
+                    plugins: {
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                title: (tooltipItem) => {
+                                    return `Heure: ${tooltipItem[0].label}`;
+                                },
+                                label: (tooltipItem) => {
+                                    const valeur = tooltipItem.raw;
+                                    return `Valeur: ${valeur} °C`;
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: [
+                                {
+                                    type: 'line',
+                                    yMin: seuilTempMin,
+                                    yMax: seuilTempMin,
+                                    borderColor: 'blue',
+                                    borderWidth: 2,
+                                    label: { content: 'Trop froid (19°C)', enabled: true, position: 'start' }
+                                },
+                                {
+                                    type: 'line',
+                                    yMin: seuilTempMax,
+                                    yMax: seuilTempMax,
+                                    borderColor: 'red',
+                                    borderWidth: 2,
+                                    label: { content: 'Trop chaud (24°C)', enabled: true, position: 'start' }
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+
+            // Graphique de l'humidité
+            if (humidityData.length > 0) {
+                const humidityCtx = document.getElementById('humidityDailyChart').getContext('2d');
+                new Chart(humidityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: humidityLabels, // Heures de l'humidité
+                        datasets: [{
+                            label: `Humidité du ${lastDate} (%)`,
+                            data: humidityData, // Humidité pour la dernière date
+                            borderColor: 'rgba(0, 0, 0, 1)',  // Couleur de la bordure (noir opaque)
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Couleur de fond de la courbe
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 100,
+                                grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                                ticks: {
+                                    font: {
+                                        weight: 'bold'  // Mettre les valeurs de l'ordonnée en gras
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 30,
+                                    font: {
+                                        weight: 'bold'  // Mettre les heures de l'axe des abscisses en gras
+                                    }
+                                }
+                            }
+                        },
+                        elements: { line: { tension: 0.4 } },
+                        plugins: {
+                            tooltip: {
+                                enabled: true,
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    title: (tooltipItem) => {
+                                        return `Heure: ${tooltipItem[0].label}`;
+                                    },
+                                    label: (tooltipItem) => {
+                                        const valeur = tooltipItem.raw;
+                                        return `Valeur: ${valeur} %`;
+                                    }
+                                }
+                            },
+                            annotation: {
+                                annotations: [
+                                    {
+                                        type: 'line',
+                                        yMin: seuilHumMin,
+                                        yMax: seuilHumMin,
+                                        borderColor: 'blue',
+                                        borderWidth: 2,
+                                        label: { content: 'Trop sec (30%)', enabled: true, position: 'start' }
+                                    },
+                                    {
+                                        type: 'line',
+                                        yMin: seuilHumMax,
+                                        yMax: seuilHumMax,
+                                        borderColor: 'red',
+                                        borderWidth: 2,
+                                        label: { content: 'Trop humide (70%)', enabled: true, position: 'start' }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Graphique de CO2
+            if (co2Data.length > 0) {
+                const co2Ctx = document.getElementById('co2DailyChart').getContext('2d');
+                new Chart(co2Ctx, {
+                    type: 'line',
+                    data: {
+                        labels: co2Labels, // Heures du CO2
+                        datasets: [{
+                            label: `CO2 du ${lastDate} (ppm)`,
+                            data: co2Data, // CO2 pour la dernière date
+                            borderColor: 'rgba(0, 0, 0, 1)',  // Couleur de la bordure (noir opaque)
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Couleur de fond de la courbe
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 1900,
+                                grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                                ticks: {
+                                    font: {
+                                        weight: 'bold'  // Mettre les valeurs de l'ordonnée en gras
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 30,
+                                    font: {
+                                        weight: 'bold'  // Mettre les heures de l'axe des abscisses en gras
+                                    }
+                                }
+                            }
+                        },
+                        elements: { line: { tension: 0.4 } },
+                        plugins: {
+                            tooltip: {
+                                enabled: true,
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    title: (tooltipItem) => {
+                                        return `Heure: ${tooltipItem[0].label}`;
+                                    },
+                                    label: (tooltipItem) => {
+                                        const valeur = tooltipItem.raw;
+                                        return `Valeur: ${valeur} ppm`;
+                                    }
+                                }
+                            },
+                            annotation: {
+                                annotations: [
+                                    {
+                                        type: 'line',
+                                        yMin: seuilCo2Min,
+                                        yMax: seuilCo2Min,
+                                        borderColor: 'blue',
+                                        borderWidth: 2,
+                                        label: { content: 'Bas (400ppm)', enabled: true, position: 'start' }
+                                    },
+                                    {
+                                        type: 'line',
+                                        yMin: seuilCo2Max,
+                                        yMax: seuilCo2Max,
+                                        borderColor: 'red',
+                                        borderWidth: 2,
+                                        label: { content: 'Haut (1500ppm)', enabled: true, position: 'start' }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Graphique température
+            function updateTemperatureChart(view) {
+                const labels = [];
+                const donnees = [];
+                const joursDeLaSemaine = [];
+
+                if (view === 'semaine') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 7) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                } else if (view === 'mois') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 30) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                }
+
+                temperatureChart.data.labels = labels;
+                temperatureChart.data.datasets[0].data = donnees;
+
+                // Mise à jour des tooltips
+                temperatureChart.options.plugins.tooltip.callbacks = {
+                    title: function(tooltipItems) {
+                        const index = tooltipItems[0].dataIndex;
+                        return `${joursDeLaSemaine[index]} (${labels[index]})`;
+                    }
+                };
+
+                temperatureChart.update();
+            }
+
+// Répète la même logique pour les graphiques d'humidité et de CO2 :
+            function updateHumidityChart(view) {
+                const labels = [];
+                const donnees = [];
+                const joursDeLaSemaine = [];
+
+                if (view === 'semaine') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 7) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                } else if (view === 'mois') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 30) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                }
+
+                humidityChart.data.labels = labels;
+                humidityChart.data.datasets[0].data = donnees;
+
+                humidityChart.options.plugins.tooltip.callbacks = {
+                    title: function(tooltipItems) {
+                        const index = tooltipItems[0].dataIndex;
+                        return `${joursDeLaSemaine[index]} (${labels[index]})`;
+                    }
+                };
+
+                humidityChart.update();
+            }
+
+            function updateCo2Chart(view) {
+                const labels = [];
+                const donnees = [];
+                const joursDeLaSemaine = [];
+
+                if (view === 'semaine') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 7) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                } else if (view === 'mois') {
+                    {% for dateKey, donnees in moyenneParJour | slice(0, 30) | reverse %}
+                    labels.push('{{ dateKey|date("d/m/Y") }}');
+                    donnees.push({{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) : 0 }});
+                    joursDeLaSemaine.push('{{ donnees.jourDeLaSemaine }}');
+                    {% endfor %}
+                }
+
+                co2Chart.data.labels = labels;
+                co2Chart.data.datasets[0].data = donnees;
+
+                co2Chart.options.plugins.tooltip.callbacks = {
+                    title: function(tooltipItems) {
+                        const index = tooltipItems[0].dataIndex;
+                        return `${joursDeLaSemaine[index]} (${labels[index]})`;
+                    }
+                };
+
+                co2Chart.update();
+            }
+
+            const seuilTempMin = {{ seuilTemp.valeurMin ?? 19 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilTempMax = {{ seuilTemp.valeurMax ?? 24 }};
+
+            const seuilHumMin = {{ seuilHum.valeurMin ?? 30 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilHumMax = {{ seuilHum.valeurMax ?? 70 }};
+
+            const seuilCo2Min = {{ seuilCo2.valeurMin ?? 400 }};  // Si seuilTemp est défini, utilisez sa valeur min
+            const seuilCo2Max = {{ seuilCo2.valeurMax ?? 1500 }};
+
+// Initialisation des graphiques
+            const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+            const temperatureChart = new Chart(temperatureCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Température (°C)',
+                        data: [],
+                        borderColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            min: 14,
+                            max: 30,
+                            grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        },
+                        x: { grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                thresholdHigh: {
+                                    type: 'line',
+                                    yMin: seuilTempMax,
+                                    yMax: seuilTempMax,
+                                    borderColor: 'rgba(255, 0, 0, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Max',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                },
+                                thresholdLow: {
+                                    type: 'line',
+                                    yMin: seuilTempMin,
+                                    yMax: seuilTempMin,
+                                    borderColor: 'rgba(0, 0, 255, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Min',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    elements: { line: { tension: 0.4 } }
+                }
+            });
+
+            const humidityCtx = document.getElementById('humidityChart').getContext('2d');
+            const humidityChart = new Chart(humidityCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Humidité (%)',
+                        data: [],
+                        borderColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        },
+                        x: { grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                thresholdHigh: {
+                                    type: 'line',
+                                    yMin: seuilHumMax,
+                                    yMax: seuilHumMax,
+                                    borderColor: 'rgba(255, 0, 0, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Max',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                },
+                                thresholdLow: {
+                                    type: 'line',
+                                    yMin: seuilHumMin,
+                                    yMax: seuilHumMin,
+                                    borderColor: 'rgba(0, 0, 255, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Min',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    elements: { line: { tension: 0.4 } }
+                }
+            });
+
+            const co2Ctx = document.getElementById('co2Chart').getContext('2d');
+            const co2Chart = new Chart(co2Ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'CO2 (ppm)',
+                        data: [],
+                        borderColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 1900,
+                            grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        },
+                        x: { grid: { color: 'rgba(0, 0, 0, 0.3)' },
+                            ticks: {
+                                font: {
+                                    weight: 'bold' // Mettre les valeurs de l'ordonnée en gras
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                thresholdHigh: {
+                                    type: 'line',
+                                    yMin: seuilCo2Max,
+                                    yMax: seuilCo2Max,
+                                    borderColor: 'rgba(255, 0, 0, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Max',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                },
+                                thresholdLow: {
+                                    type: 'line',
+                                    yMin: seuilCo2Min,
+                                    yMax: seuilCo2Min,
+                                    borderColor: 'rgba(0, 0, 255, 1)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Seuil Min',
+                                        enabled: true,
+                                        position: 'end'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    elements: { line: { tension: 0.4 } }
+                }
+            });
+
+// Mettre à jour les données initiales pour la "Semaine"
+            updateTemperatureChart('semaine');
+            updateHumidityChart('semaine');
+            updateCo2Chart('semaine');
+
+// Ajouter un gestionnaire pour la sélection entre "semaine" et "mois"
+            document.querySelectorAll('input[name="view"]').forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const selectedValue = event.target.nextElementSibling.getAttribute('data-value');
+                    updateTemperatureChart(selectedValue);
+                    updateHumidityChart(selectedValue);
+                    updateCo2Chart(selectedValue);
+                });
+            });
+
+// Navigation avec les flèches
+            const sections = ['temperature', 'humidity', 'co2'];
+            let activeIndex = 0;
+
+            const updateVisibility = () => {
+                sections.forEach((section, index) => {
+                    document.getElementById(`${section}-section`).classList.toggle('toggle-active', index === activeIndex);
+                    document.getElementById(`${section}-section-tend`).classList.toggle('toggle-active', index === activeIndex);
+                    document.getElementById(`${section}Chart`).style.display = index === activeIndex ? 'block' : 'none';
+                    document.getElementById(`${section}DailyChart`).style.display = index === activeIndex ? 'block' : 'none';
+                    document.getElementById(`${section}-week`).style.display = index === activeIndex ? 'block' : 'none';
+                });
+
+                const titles = {
+                    0: { current: 'Température', weekly: 'Température' },
+                    1: { current: 'Humidité', weekly: 'Humidité' },
+                    2: { current: 'CO2', weekly: 'CO2' }
+                };
+                document.getElementById('current-temperature-title').textContent = titles[activeIndex].current;
+                document.getElementById('weekly-temperature-title').textContent = titles[activeIndex].weekly;
+            };
+
+            document.querySelectorAll('.arrow-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const direction = button.classList.contains('left') ? -1 : 1;
+                    activeIndex = (activeIndex + direction + sections.length) % sections.length;
+                    updateVisibility();
+                });
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                    activeIndex = (activeIndex - 1 + sections.length) % sections.length;
+                    updateVisibility();
+                } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                    activeIndex = (activeIndex + 1) % sections.length;
+                    updateVisibility();
+                }
+            });
+
+            // Initialiser l'affichage
+            updateVisibility();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButtons = document.querySelectorAll(".toggle-buttons input[type=radio]");
+            const temperatureWeek = document.getElementById("temperature-week");
+            const humidityWeek = document.getElementById("humidity-week");
+            const co2Week = document.getElementById("co2-week");
+            const voirPlusButton = document.getElementById("voir-plus");
+            let isExpanded = false; // État du bouton "Voir plus / Voir moins"
+
+            // Fonction pour afficher les données des 7 derniers jours avec le nom de la semaine (mode Semaine)
+            function showWeeklyData() {
+                temperatureWeek.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ donnees.jourDeLaSemaine }}</strong><br>
+                {{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) ~ '°C' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                humidityWeek.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ donnees.jourDeLaSemaine }}</strong><br>
+                {{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) ~ '%' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                co2Week.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ donnees.jourDeLaSemaine }}</strong><br>
+                {{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) ~ 'ppm' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+            }
+
+            // Fonction pour afficher les données des 7 derniers jours avec jour/mois (mode Mois, réduit)
+            function showReducedMonthlyData() {
+                temperatureWeek.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) ~ '°C' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                humidityWeek.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) ~ '%' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                co2Week.innerHTML = `{% for day, donnees in derniereSemaine %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) ~ 'ppm' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+            }
+
+            // Fonction pour afficher les données des 30 derniers jours (mode Mois, étendu)
+            function showFullMonthlyData() {
+                temperatureWeek.innerHTML = `{% for day, donnees in dernierMois %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneTemp is not null ? donnees.moyenneTemp | number_format(1) ~ '°C' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                humidityWeek.innerHTML = `{% for day, donnees in dernierMois %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneHum is not null ? donnees.moyenneHum | number_format(1) ~ '%' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+
+                co2Week.innerHTML = `{% for day, donnees in dernierMois %}
+            <span><strong>{{ day|date('d/m') }}</strong><br>
+                {{ donnees.moyenneCo2 is not null ? donnees.moyenneCo2 | number_format(0) ~ 'ppm' : 'N/A' }}
+            </span>
+        {% endfor %}`;
+            }
+
+            // Fonction pour gérer l'affichage du mode "Mois"
+            function showMonthlyView() {
+                isExpanded = false; // Réinitialiser l'état d'expansion
+                showReducedMonthlyData(); // Afficher les 7 derniers jours en mode "Mois"
+                voirPlusButton.style.display = 'block'; // Afficher le bouton "Voir plus"
+                voirPlusButton.textContent = 'Voir plus'; // Réinitialiser le texte du bouton
+            }
+
+            // Gestion de l'événement pour les boutons radio
+            toggleButtons.forEach(button => {
+                button.addEventListener("change", function () {
+                    const selectedView = this.id;
+
+                    if (selectedView === "semaine") {
+                        voirPlusButton.style.display = 'none'; // Cacher le bouton "Voir plus"
+                        showWeeklyData();
+                    } else if (selectedView === "mois") {
+                        showMonthlyView(); // Gérer l'affichage initial du mode "Mois"
+                    }
+                });
+            });
+
+            // Gestion du bouton "Voir plus / Voir moins"
+            voirPlusButton.addEventListener("click", () => {
+                if (isExpanded) {
+                    // Revenir aux 7 derniers jours avec jour/mois
+                    showReducedMonthlyData();
+                    voirPlusButton.textContent = 'Voir plus'; // Changer le texte du bouton
+                    isExpanded = false; // Marquer comme réduit
+                } else {
+                    // Afficher les 30 derniers jours
+                    showFullMonthlyData();
+                    voirPlusButton.textContent = 'Voir moins'; // Changer le texte du bouton
+                    isExpanded = true; // Marquer comme étendu
+                }
+            });
+
+            // Afficher les données de la semaine par défaut au chargement
+            showWeeklyData();
+        });
+
+
+
+        // Exemple d'utilisation
+        document.getElementById('semaine').addEventListener('click', () => switchView('semaine'));
+        document.getElementById('mois').addEventListener('click', () => switchView('mois'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const voirPlusButton = document.getElementById('voir-plus');
+            const extraDays = document.querySelectorAll('.extra-days');
+            const toggleButtons = document.querySelectorAll('input[name="view"]');
+
+            let isExpanded = false;
+
+            // Afficher ou masquer les jours supplémentaires
+            voirPlusButton.addEventListener('click', () => {
+                isExpanded = !isExpanded;
+                extraDays.forEach(days => {
+                    days.style.display = isExpanded ? 'flex' : 'none';
+                    days.style.flexWrap = 'wrap';
+                });
+                voirPlusButton.textContent = isExpanded ? 'Voir moins' : 'Voir plus';
+            });
+
+            // Gestion de la bascule entre semaine et mois
+            toggleButtons.forEach(button => {
+                button.addEventListener('change', (event) => {
+                    if (event.target.id === 'mois') {
+                        voirPlusButton.style.display = 'block';
+                        extraDays.forEach(days => days.style.display = 'none');
+                        isExpanded = false;
+                        voirPlusButton.textContent = 'Voir plus';
+                    } else {
+                        voirPlusButton.style.display = 'none';
+                        extraDays.forEach(days => days.style.display = 'none');
+                    }
+                });
+            });
+        });
+
+    </script>
+{% endblock %}

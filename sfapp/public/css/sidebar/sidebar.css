@@ -1,0 +1,230 @@
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px; /* Largeur de base */
+    height: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #555;
+    font-size: 1.2rem; /* Taille de base du texte */
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+/* Close button */
+.close-btn {
+    font-size: 1.5rem;
+    color: #555;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+/* Menu items */
+.menu-item {
+    padding: 10px;
+    cursor: pointer;
+    color: #333;
+}
+
+.menu-item.title {
+    font-weight: bold;
+}
+
+.menu-item.active {
+    background-color: #bdc3c7;
+    border-radius: 5px;
+}
+
+.menu-item:hover {
+    background-color: #ecf0f1;
+    border-radius: 5px;
+}
+
+.menu-item.active:hover {
+    background-color: #bdc3c7;
+    border-radius: 5px;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: #555;
+    width: 100%;             /* Prend toute la largeur du conteneur */
+    text-align: center;      /* Centre le texte */
+    display: inline-block;   /* Pour centrer le texte */
+}
+
+/* Styles pour l'icône */
+.menu-icon {
+    width: 24px;               /* Taille de l'icône de base */
+    height: 24px;
+    position: absolute;
+    left: 10px;                /* Distance depuis le bord gauche du volet */
+    font-size: 1.5em;          /* Taille de l'icône de base */
+    margin-right: 20px;        /* Espace entre l'icône et le texte */
+    cursor: pointer;
+}
+
+/* Menu-item-title (menu déroulant) */
+.menu-item-title {
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Stylisation du formulaire de sélection */
+.menu-item-title form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-item-title label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333; /* Texte sombre */
+}
+
+#salle-select {
+    width: 100%; /* Reste à 100% de la largeur du conteneur */
+    max-height: 50px;
+    padding: 10px;
+    font-size: 1rem; /* Taille de texte initiale */
+    color: #555;
+    background-color: #f9f9f9; /* Fond gris clair */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#salle-select:hover {
+    background-color: #ecf0f1; /* Change le fond au survol */
+}
+
+#salle-select:focus {
+    border-color: #2980b9; /* Couleur bleue lorsqu'il est sélectionné */
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5); /* Effet lumineux */
+    outline: none;
+}
+
+.recherche_salle {
+    display: flex;
+}
+
+/* Ajustements responsives pour réduire tout proportionnellement */
+@media screen and (max-width: 1200px) {
+    .sidebar {
+        width: 25%; /* Sidebar réduit proportionnellement */
+    }
+    .menu-item {
+        padding: 8px; /* Réduit le padding proportionnellement */
+    }
+    .menu-item a {
+        font-size: 1.1rem; /* Taille du texte légèrement réduite */
+    }
+    .menu-icon {
+        width: 22px; /* Réduit la taille des icônes */
+        height: 22px;
+        font-size: 1.4em; /* Réduit proportionnellement la taille de l'icône */
+    }
+    .close-btn {
+        font-size: 1.3rem; /* Réduit la taille du bouton de fermeture */
+        top: 8px;
+        right: 12px;
+    }
+    #salle-select {
+        font-size: 0.95rem; /* Réduit la taille du texte du sélecteur */
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .sidebar {
+        width: 30%; /* Réduit encore plus la sidebar */
+    }
+    .menu-item {
+        padding: 6px; /* Réduit le padding */
+    }
+    .menu-item a {
+        font-size: 1rem; /* Taille du texte plus petite */
+    }
+    .menu-icon {
+        width: 20px; /* Taille des icônes encore plus petite */
+        height: 20px;
+        font-size: 1.2em;
+    }
+    .close-btn {
+        font-size: 1.2rem; /* Réduit encore la taille du bouton */
+    }
+    #salle-select {
+        font-size: 0.9rem; /* Plus petite taille pour le texte du sélecteur */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 35%; /* Sidebar encore plus petite sur les petits écrans */
+    }
+    .menu-item {
+        padding: 5px; /* Réduit encore plus le padding */
+    }
+    .menu-item a {
+        font-size: 0.95rem; /* Taille du texte plus petite */
+    }
+    .menu-icon {
+        width: 18px; /* Icônes encore plus petites */
+        height: 18px;
+        font-size: 1em;
+    }
+    .close-btn {
+        font-size: 1.1rem; /* Taille réduite du bouton */
+    }
+    #salle-select {
+        font-size: 0.85rem; /* Plus petite taille pour le texte */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        width: 45%; /* Sidebar vraiment petite sur les écrans très petits */
+    }
+    .menu-item {
+        padding: 4px; /* Réduit le padding au minimum */
+    }
+    .menu-item a {
+        font-size: 0.85rem; /* Taille du texte plus petite */
+    }
+    .menu-icon {
+        width: 16px; /* Réduit les icônes à leur plus petite taille */
+        height: 16px;
+        font-size: 0.9em; /* Icône encore plus petite */
+    }
+    .close-btn {
+        font-size: 1rem; /* Très petite taille pour le bouton */
+    }
+    #salle-select {
+        font-size: 0.8rem; /* Réduit la taille du texte du sélecteur */
+    }
+}
